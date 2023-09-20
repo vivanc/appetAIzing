@@ -1,9 +1,7 @@
+import SignUp from "../src/components/sign-up/sign-up.component.js";
+
 const App = () => {
-  return (
-    <div>
-      <h1>appetAIzing</h1>
-    </div>
-  );
+  return <SignUp />;
 };
 
 export default App;
