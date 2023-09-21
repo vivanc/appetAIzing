@@ -1,8 +1,9 @@
 import React from "react";
-import { Container } from "react-bootstrap";
-import "/top-section.styles.css";
+import { Container, Row, Col } from "react-bootstrap";
+import "./top-section.styles.css";
 
 const TopSection = () => {
+    console.log("Top section is rendering");
     return (
         <Container fluid className="top-section">
             <Row>
@@ -11,3 +12,5 @@ const TopSection = () => {
         </Container>
     )
 }
+
+export default TopSection;
