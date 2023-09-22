@@ -3,7 +3,6 @@ import { Container, Row, Col } from "react-bootstrap";
 import "./top-section.styles.css";
 
 const TopSection = () => {
-    console.log("Top section is rendering");
     return (
         <Container className="d-flex justify-content-center" fluid style={{backgroundColor: "blanchedalmond", height: "10%"}}>
             <Row className="d-flex">
@@ -16,4 +15,3 @@ const TopSection = () => {
 }
 
 export default TopSection;
-// 
