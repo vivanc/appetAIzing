@@ -1,5 +1,6 @@
 import TopSection from "../top-section/top-section";
 import NavBar from "../nav-bar/nav-bar.component";
+import RecipeCard from "../recipe-card/recipe-card.component";
 import { Container, Row, Col } from "react-bootstrap";
 
 const HomePage = () => {
@@ -23,7 +24,7 @@ const HomePage = () => {
           <NavBar />
         </Col>
         <Col className="col">
-          <h2>Recipe render component</h2>
+          <RecipeCard />
         </Col>
       </Row>
     </Container>
