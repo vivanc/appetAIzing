@@ -18,9 +18,8 @@ const HomePage = () => {
           <TopSection />
         </Col>
       </Row>
-      <Row className="d-flex">
-        {/* bootstrap grid system*/}
-        <Col className="col-2">
+      <Row className="h-100">
+        <Col className="col-2 my-auto text-center">
           <NavBar />
         </Col>
         <Col className="col">
