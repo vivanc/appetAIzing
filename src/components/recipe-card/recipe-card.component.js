@@ -8,6 +8,7 @@ const RecipeCard = () => {
         <div>Recipe Name</div>
         <div>Ingredients: </div>
         <div>....</div>
+        <div>.....</div>
       </div>
     </div>
   );
