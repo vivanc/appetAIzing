@@ -1,29 +1,45 @@
 const UserCreateRecipe = () => {
-    <>
-    <h1>Create a Recipe From Scratch</h1>
-    <label>
-        Recipe Name:
-        <textarea name="recipeName" rows={1} col={80}></textarea>
-        
-    </label>
-    <label>
-        Ingredients
-        <textarea name="ingredients" rows={8} col={80}></textarea>
-        
-    </label>
-    <label>
-        Steps
-        <textarea name="steps" rows={8} col={80}></textarea>
-        
-    </label>
-    <label>
-        Upload Picture
-        <input type="file" name="recipeImage"></input>
-        
-    </label>
-    <button type="submit">Submit Recipe</button>
+    return (
+        <>
+            <form>
+                <h4>Create a Recipe From Scratch</h4>
+                <div className="form-group">
+                    <div>
+                        <label>Recipe Name:</label>
+                    </div>
+                    <div>
+                        <textarea name="steps" rows={1} cols={50}></textarea>
+                    </div>
+                    <div>
+                        <label>Ingredients</label>
+                    </div>
+                    <div>
+                        <textarea name="ingredients" rows={8} cols={120}></textarea>
+                    </div>
+                    <div>
+                        <label>Steps</label>
+                    </div>
+                    <div>
+                        <textarea name="steps" rows={8} cols={120}></textarea>
+                    </div>
+                    <div>
 
-    </>
+                    </div>
+                    <div>
+                        <label>Upload Picture</label>
+                    </div>
+                    <div>
+                        <input type="file" name="recipeImage"></input>
+                    </div>
+                    <button type="submit">Submit Recipe</button>
+                </div>
+            </form>
+
+
+
+        </>
+    )
+
 }
 
 export default UserCreateRecipe;
