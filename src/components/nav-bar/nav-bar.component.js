@@ -8,6 +8,7 @@ const NavBar = () => {
         <h2>Home</h2>
         <h2>Add Recipe</h2>
         <h2>Log Out</h2>
+        <h2>tester</h2>
       </div>
     </div>
   );
