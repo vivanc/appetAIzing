@@ -2,15 +2,16 @@ import { ReactComponent as ProfileLogo } from "../../assets/profile.svg";
 
 const NavBar = () => {
   return (
-    <div className="container">
-      <div>
+    <nav>
+      <div className="pb-3">
         <ProfileLogo />
-        <h2>Home</h2>
-        <h2>Add Recipe</h2>
-        <h2>Log Out</h2>
-        <h2>tester</h2>
       </div>
-    </div>
+      <ul className="list-unstyled h3">
+        <li className="py-3 my-3 bg-secondary">Home</li>
+        <li className="py-3 my-3 bg-secondary">Add Recipe</li>
+        <li className="py-3 my-3 bg-secondary">Log Out</li>
+      </ul>
+    </nav>
   );
 };
 
