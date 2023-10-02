@@ -1,12 +1,15 @@
 {
   "Recipe": [
     {
-      "Recipe Name": "Birthday cake",
+      "id": 1,
+      "Name": "Birthday cake",
       "Ingredients": ["300g flour", "50g fresh strawberries"],
-      "Steps": ["Mix flour with eggs", "let it sit for 2 hrs"]
+      "Steps": ["Mix flour with eggs", "let it sit for 2 hrs"],
+      "imageUrl": "https://images.pexels.com/photos/14968375/pexels-photo-14968375/free-photo-of-close-up-shot-of-a-delicious-birthday-cake-on-pink-surface.jpeg?auto=compress&cs=tinysrgb&w=1600"
     },
     {
-      "Recipe Name": "Christmas pie",
+      "id": 2,
+      "Name": "Christmas pie",
       "Ingredients": [
         "2 tbsp olive oil",
         "knob butter",
