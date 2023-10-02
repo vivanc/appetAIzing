@@ -18,7 +18,7 @@ const HomePage = () => {
           <TopSection />
         </Col>
       </Row>
-      <Row className=" h-100">
+      <Row className="h-100">
         <Col className="col-2 my-auto text-center">
           <NavBar />
         </Col>
