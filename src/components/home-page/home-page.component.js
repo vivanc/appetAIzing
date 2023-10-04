@@ -1,6 +1,7 @@
 import TopSection from "../top-section/top-section";
 import NavBar from "../nav-bar/nav-bar.component";
 import RecipeCard from "../recipe-card/recipe-card.component";
+import SearchBar from "../search-bar/search-bar.component";
 import { Container, Row, Col } from "react-bootstrap";
 
 const HomePage = () => {
@@ -18,8 +19,18 @@ const HomePage = () => {
           <TopSection />
         </Col>
       </Row>
+      <Row
+        style={{
+          height: "5%",
+          width: "100vw",
+        }}
+      >
+        <Col className="d-flex justify-content-center">
+          <SearchBar />
+        </Col>
+      </Row>
       <Row className="h-100">
-        <Col className="col-2 my-auto text-center">
+        <Col className="col-2 text-center">
           <NavBar />
         </Col>
         <Col className="col">
