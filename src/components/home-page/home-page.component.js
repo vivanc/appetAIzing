@@ -1,6 +1,7 @@
 import TopSection from "../top-section/top-section";
 import NavBar from "../nav-bar/nav-bar.component";
 import RecipeCard from "../recipe-card/recipe-card.component";
+import ViewRecipe from "../view-recipe/view-recipe.component";
 import { Container, Row, Col } from "react-bootstrap";
 
 const HomePage = () => {
@@ -22,9 +23,7 @@ const HomePage = () => {
         <Col className="col-2 my-auto text-center">
           <NavBar />
         </Col>
-        <Col className="col">
-          <RecipeCard />
-        </Col>
+        <Col className="col">{<RecipeCard /> && <ViewRecipe />}</Col>
       </Row>
     </Container>
   );
