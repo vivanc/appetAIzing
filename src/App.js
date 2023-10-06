@@ -1,6 +1,6 @@
 import SignUp from "../src/components/sign-up/sign-up.component.js";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import MainPage from "./components/main-page.js/main-page.js";
+import MainPage from "./components/main-page/main-page.component.js";
 import HomePage from "./components/home-page/home-page.component";
 import CreateRecipe from "./components/create-recipe/create-recipe.component.js";
 
