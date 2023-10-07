@@ -3,7 +3,6 @@ import Bootstrap from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const IntroRightSection = () => {
-
     return (
         <div >
             <div className="text-center">
