@@ -4,7 +4,7 @@ import IntroLeftSection from "../intro-left-section/intro-left-section.component
 import IntroRightSection from "../intro-right-section/intro-right-section.component";
 import { Container, Row, Col } from "react-bootstrap";
 
-const MainPage = (props) => {
+const MainPage = () => {
     return (
         <div >
             <Container>
