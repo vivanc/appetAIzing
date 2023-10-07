@@ -1,25 +1,24 @@
 import React from "react";
 import TopSection from "../top-section/top-section.component";
-import LeftSection from "../intro-left-section/intro-left-section.component";
+import IntroLeftSection from "../intro-left-section/intro-left-section.component";
+import IntroRightSection from "../intro-right-section/intro-right-section.component";
 import { Container, Row, Col } from "react-bootstrap";
 
 const MainPage = () => {
     return (
-        <Container >
-            <Row style={{height:"10vh", width:"100vw"}}>
-                <Col ><TopSection/></Col>
-            </Row>
-            <Row style={{height:"90vh", width:"100vw"}}>
-                <Col ><LeftSection /></Col>
-                <Col >text and button</Col>
-            </Row>
-        </Container>
+        <div >
+            <Container>
+                <Row style={{ height: "10vh", width: "100vw" }}>
+                    <Col ><TopSection /></Col>
+                </Row>
+                <Row style={{ height: "90vh", width: "100vw" }}>
+                    <Col ><IntroLeftSection /></Col>
+                    <Col ><IntroRightSection /></Col>
+                </Row>
+            </Container>
+
+        </div>
     );
 }
-/*
-<Row className="d-flex justify-content-center" style={{backgroundColor: "blanchedalmond", height: "10%", width:"100vw"}}>
-                <Col ><TopSection className="d-flex align-items-center justify-content-center"/></Col>
-            </Row>
-*/
 
 export default MainPage;
