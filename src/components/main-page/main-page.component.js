@@ -1,6 +1,6 @@
 import React from "react";
 import TopSection from "../top-section/top-section.component";
-import LeftSection from "../left-section/left-section.component";
+import LeftSection from "../intro-left-section/intro-left-section.component";
 import { Container, Row, Col } from "react-bootstrap";
 
 const MainPage = () => {
