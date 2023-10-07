@@ -11,9 +11,9 @@ const IntroRightSection = () => {
                 AppetAIzing is your culinary companion, a platform designed for recipe enthusiasts. 
                 Simply create a recipe with our AI-powered feature!
             </h4>
-            {/* <Link to='/signin'>
+            <Link to='/signin'>
             <button>Signin</button>
-            </Link> */}
+            </Link>
             <Link to='/signup'>
             <button>Signup</button>
             </Link>
