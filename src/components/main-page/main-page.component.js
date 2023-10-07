@@ -5,7 +5,6 @@ import IntroRightSection from "../intro-right-section/intro-right-section.compon
 import { Container, Row, Col } from "react-bootstrap";
 
 const MainPage = (props) => {
-    const rightPart = props;
     return (
         <div >
             <Container>
