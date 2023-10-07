@@ -1,7 +1,7 @@
 import AICreateRecipe from "./ai-create-recipe.component";
 import UserCreateRecipe from "./user-create-recipe.coponent";
 import TopSection from "../top-section/top-section.component";
-import IntroLeftSection from "../intro-left-section/intro-left-section.component";
+import NavBar from "../nav-bar/nav-bar.component";
 import { Container, Row, Col } from "react-bootstrap";
 
 const CreateRecipe = () => {
@@ -13,7 +13,7 @@ const CreateRecipe = () => {
                     <Col ><TopSection /></Col>
                 </Row>
                 <Row style={{ height: "90vh", width: "100vw" }}>
-                    <Col ><IntroLeftSection /></Col>
+                    <Col xs={3}><NavBar /></Col>
                     <Col >
                         <div>
                             <AICreateRecipe />
