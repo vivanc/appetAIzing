@@ -1,4 +1,4 @@
-import TopSection from "../top-section/top-section";
+import TopSection from "../top-section/top-section.component";
 import NavBar from "../nav-bar/nav-bar.component";
 import RecipeCard from "../recipe-card/recipe-card.component";
 import ViewRecipe from "../view-recipe/view-recipe.component";
