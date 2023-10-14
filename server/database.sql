@@ -11,5 +11,14 @@ CREATE TABLE IF NOT EXISTS "user" (
     password VARCHAR(255)
 );
 
+-- Drop the table if it exists
+DROP TABLE IF EXISTS "recipe";
 
-CREATE TABLE ""
+-- Create the table if it does not exist
+CREATE TABLE IF NOT EXISTS "recipe" (
+    recipe_id SERIAL PRIMARY KEY,
+    name VARCHAR(255),
+    ingredients VARCHAR(255),
+    steps VARCHAR(255),
+    image_url VARCHAR(255)
+);
