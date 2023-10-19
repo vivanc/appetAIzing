@@ -28,7 +28,6 @@ app.post("/api/user", async (req, res) => {
     console.log(result);
     res.status(201).send({ message: "New user created", user: result.rows[0] });
   } catch (err) {
-    console.error(err);
     res.status(500).send("some error has occured");
   }
 });
