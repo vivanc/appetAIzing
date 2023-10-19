@@ -9,11 +9,15 @@ const SignUp = () => {
     <>
       <Container>
         <Row style={{ height: "10vh", width: "100vw" }}>
-          <Col ><TopSection /></Col>
+          <Col>
+            <TopSection />
+          </Col>
         </Row>
         <Row style={{ height: "90vh", width: "100vw" }}>
-          <Col ><IntroLeftSection /></Col>
-          <Col >
+          <Col>
+            <IntroLeftSection />
+          </Col>
+          <Col>
             <div data-testid="sign-up" className="sign-up-container">
               <h2>Sign up</h2>
               <form>
@@ -44,7 +48,12 @@ const SignUp = () => {
                 </button>
               </form>
               <h5>Or Sign Up Using</h5>
-              <button type="submit" className="btn btn-primary">
+              {/* <div id="sign-up-google"></div> */}
+              <button
+                type="submit"
+                className="btn btn-primary"
+                // id="sign-in-google"
+              >
                 Gmail
               </button>
             </div>
@@ -52,7 +61,6 @@ const SignUp = () => {
         </Row>
       </Container>
     </>
-
   );
 };
 
