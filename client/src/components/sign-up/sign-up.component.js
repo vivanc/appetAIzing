@@ -2,6 +2,7 @@ import "./sign-up.styles.css";
 import React from "react";
 import TopSection from "../top-section/top-section.component";
 import IntroLeftSection from "../intro-left-section/intro-left-section.component";
+import SignUpGoogle from "../sign-up-google/sign-up-google.component";
 import { Container, Col, Row } from "react-bootstrap";
 
 const SignUp = () => {
@@ -9,11 +10,15 @@ const SignUp = () => {
     <>
       <Container>
         <Row style={{ height: "10vh", width: "100vw" }}>
-          <Col ><TopSection /></Col>
+          <Col>
+            <TopSection />
+          </Col>
         </Row>
         <Row style={{ height: "90vh", width: "100vw" }}>
-          <Col ><IntroLeftSection /></Col>
-          <Col >
+          <Col>
+            <IntroLeftSection />
+          </Col>
+          <Col>
             <div data-testid="sign-up" className="sign-up-container">
               <h2>Sign up</h2>
               <form>
@@ -44,15 +49,17 @@ const SignUp = () => {
                 </button>
               </form>
               <h5>Or Sign Up Using</h5>
-              <button type="submit" className="btn btn-primary">
+              <div>
+                <SignUpGoogle />
+              </div>
+              {/* <button type="submit" className="btn btn-primary">
                 Gmail
-              </button>
+              </button> */}
             </div>
           </Col>
         </Row>
       </Container>
     </>
-
   );
 };
 
