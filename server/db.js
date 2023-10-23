@@ -1,11 +1,6 @@
-const env = require("dotenv").config({ path: `.env.development` });
-const { Pool } = require("pg");
+const knex = require("knex");
+const knexFile = require("./knexfile");
 
-const pool = new Pool({
-  user: process.env.PG_USERNAME,
-  host: process.env.HOST,
-  port: process.env.PORT,
-  database: process.env.DATABASE,
-});
+const environment = process.env.NODE_ENV || "development";
 
-module.exports = { pool };
+module.exports = knex(knexFile[environment]);

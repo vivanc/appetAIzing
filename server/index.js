@@ -1,10 +1,9 @@
 const express = require("express");
 const app = express();
-const cors = require("cors");
-const pool = require("./db").pool;
+const db = require("./db");
+const pg = require('pg');
 
 //middleware
-app.use(cors());
 app.use(express.json());
 
 // test api
@@ -16,19 +15,11 @@ app.post("/api/user", async (req, res) => {
   }
 
   try {
-    // try to send data to the database
-    const stmt = `
-        INSERT INTO users (name, email, password)
-        VALUES ($1, $2, $3)
-        RETURNING *;
-      `;
-    const values = [name, email, password];
-
-    const result = await pool.query(stmt, values);
-    console.log(result);
-    res.status(201).send({ message: "New user created", user: result.rows[0] });
+    const user = await db('users').insert({name, email, password});
+    res.status(201).send(user);
   } catch (err) {
-    res.status(500).send("some error has occured");
+    console.error(err);
+    res.status(500).json({ error: error.message });
   }
 });
 
