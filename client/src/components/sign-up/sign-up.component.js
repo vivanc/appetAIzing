@@ -1,11 +1,36 @@
 import "./sign-up.styles.css";
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import TopSection from "../top-section/top-section.component";
 import IntroLeftSection from "../intro-left-section/intro-left-section.component";
-import SignUpGoogle from "../sign-up-google/sign-up-google.component";
 import { Container, Col, Row } from "react-bootstrap";
+import jwt_decode from "jwt-decode";
+import { UserContext } from "../../contexts/user.context";
 
 const SignUp = () => {
+  const { currentUser, setCurrentUser } = useContext(UserContext);
+
+  const handleCallbackResponse = (r) => {
+    console.log("Encoded JWT ID token: " + r.credential);
+    const currentUserObject = jwt_decode(r.credential);
+    console.log(currentUserObject);
+    setCurrentUser(currentUserObject);
+  };
+
+  useEffect(() => {
+    /* global google */
+    google.accounts.id.initialize({
+      client_id:
+        "39650006073-2krmk3vkmevjck8chahmgr0q01hobnd2.apps.googleusercontent.com",
+      callback: handleCallbackResponse,
+    });
+    google.accounts.id.renderButton(document.getElementById("sign-up-google"), {
+      theme: "outline",
+      type: "icon",
+      shape: "pill",
+      size: "large",
+    });
+  }, []);
+
   return (
     <>
       <Container>
@@ -49,12 +74,7 @@ const SignUp = () => {
                 </button>
               </form>
               <h5>Or Sign Up Using</h5>
-              <div>
-                <SignUpGoogle />
-              </div>
-              {/* <button type="submit" className="btn btn-primary">
-                Gmail
-              </button> */}
+              <div id="sign-up-google"></div>
             </div>
           </Col>
         </Row>
