@@ -3,17 +3,22 @@ import TopSection from "../top-section/top-section.component";
 import IntroLeftSection from "../intro-left-section/intro-left-section.component";
 import "./sign-in.styles.css";
 import { Container, Col, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const SignIn = () => {
   return (
     <div>
       <Container>
         <Row style={{ height: "10vh", width: "100vw" }}>
-          <Col ><TopSection /></Col>
+          <Col>
+            <TopSection />
+          </Col>
         </Row>
         <Row style={{ height: "90vh", width: "100vw" }}>
-          <Col ><IntroLeftSection /></Col>
-          <Col >
+          <Col>
+            <IntroLeftSection />
+          </Col>
+          <Col>
             <div className="sign-in-container">
               <h2>Sign in</h2>
               <form>
@@ -41,15 +46,14 @@ const SignIn = () => {
                 </button>
               </form>
               <h5>Or Sign Up</h5>
-              <button type="submit" className="btn btn-primary">
-                Signup
-              </button>
+              <Link to="/signup">
+                <button className="btn btn-primary">Sign Up</button>
+              </Link>
             </div>
           </Col>
         </Row>
       </Container>
     </div>
-
   );
 };
 
