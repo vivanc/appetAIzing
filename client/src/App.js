@@ -6,6 +6,7 @@ import HomePage from "./components/home-page/home-page.component";
 import CreateRecipe from "./components/create-recipe/create-recipe.component.js";
 import { UserContext } from "./contexts/user.context";
 import { useState } from "react";
+import ProtectedRoutes from "./components/protected-routes/protected-routes.component";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState({});
@@ -18,8 +19,10 @@ const App = () => {
           <Route path="/" element={<MainPage />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
+          {/* <Route element={<ProtectedRoutes />}> */}
           <Route path="/home" element={<HomePage />} />
           <Route path="/create-recipe" element={<CreateRecipe />} />
+          {/* </Route> */}
         </Routes>
       </UserContext.Provider>
     </Router>

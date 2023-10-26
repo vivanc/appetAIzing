@@ -16,6 +16,9 @@ const SignUp = () => {
     setCurrentUser(currentUserObject);
   };
 
+  console.log("after setCurrentUser: ");
+  console.log(currentUser);
+
   useEffect(() => {
     /* global google */
     google.accounts.id.initialize({
