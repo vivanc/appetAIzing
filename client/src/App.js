@@ -9,8 +9,11 @@ import { useState } from "react";
 import ProtectedRoutes from "./components/protected-routes/protected-routes.component";
 
 const App = () => {
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState(null);
   const value = { currentUser, setCurrentUser };
+
+  console.log("1. app.js currentUser: ");
+  console.log(currentUser);
 
   return (
     <Router>

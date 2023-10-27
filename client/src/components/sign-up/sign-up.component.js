@@ -5,19 +5,22 @@ import IntroLeftSection from "../intro-left-section/intro-left-section.component
 import { Container, Col, Row } from "react-bootstrap";
 import jwt_decode from "jwt-decode";
 import { UserContext } from "../../contexts/user.context";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const { currentUser, setCurrentUser } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  console.log("2. signup component after signup: ");
+  console.log(currentUser);
 
   const handleCallbackResponse = (r) => {
     console.log("Encoded JWT ID token: " + r.credential);
     const currentUserObject = jwt_decode(r.credential);
     console.log(currentUserObject);
     setCurrentUser(currentUserObject);
+    navigate("/home");
   };
-
-  console.log("after setCurrentUser: ");
-  console.log(currentUser);
 
   useEffect(() => {
     /* global google */

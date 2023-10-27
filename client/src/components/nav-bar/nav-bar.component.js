@@ -1,7 +1,20 @@
 import { ReactComponent as ProfileLogo } from "../../assets/profile.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/user.context";
 
 const NavBar = () => {
+  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+    navigate("/");
+  };
+
+  console.log("3. nav bar component after logout: ");
+  console.log(currentUser);
+
   return (
     <nav className="d-flex flex-column ">
       <ProfileLogo className="mx-auto" />
@@ -18,12 +31,13 @@ const NavBar = () => {
       >
         Add Recipe
       </Link>
-      <Link
+      <button
+        type="button"
         className="py-3 my-3 bg-secondary text-white h4 text-decoration-none"
-        to=""
+        onClick={handleLogout}
       >
         Log Out
-      </Link>
+      </button>
     </nav>
   );
 };
