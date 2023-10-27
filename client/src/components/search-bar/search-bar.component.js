@@ -7,7 +7,7 @@ const SearchBar = () => {
         placeholder="search recipe.."
         onChange={""}
       />
-      <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">
+      <button className="btn btn-outline-warning my-2 my-sm-0" type="submit">
         search
       </button>
     </div>
