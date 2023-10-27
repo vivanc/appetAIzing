@@ -8,7 +8,7 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    setCurrentUser(null);
+    setCurrentUser({});
     navigate("/");
   };
 
