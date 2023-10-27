@@ -34,7 +34,9 @@ const HomePage = () => {
         <Col className="col-2 text-center">
           <NavBar />
         </Col>
-        <Col className="col">{<RecipeCard /> && <ViewRecipe />}</Col>
+        <Col className="col">{<RecipeCard />}</Col>
+        {/* && <ViewRecipe /> */}
+        {/* && <CreateRecipe /> */}
       </Row>
     </Container>
   );
