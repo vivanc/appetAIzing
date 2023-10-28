@@ -23,6 +23,95 @@ app.post("/api/user", async (req, res) => {
   }
 });
 
+app.post("/api/recipe/new", async (req, res) => {
+
+  const { name, ingredients, steps, image_url } = req.body;
+  
+  if (!name || !ingredients || !steps || !image_url) {
+    return res.status(400).send("Data is missing");
+  }
+
+  try {
+    const recipe = await db('recipes').insert({name, ingredients, steps, image_url});
+    res.status(201).send(recipe);
+  } catch (err) {
+    res.status(500).json({ message: "Error adding recipe", error: err.message });
+  }
+
+});
+
+app.get("/api/recipes", async(req, res) => {
+  try {
+    const recipes = await db.select("*").from("recipes");
+
+    if (recipes) {
+      res.status(200).json(recipes)
+    } else {
+      res.status(404).json("Recipes Not Found")
+    }
+  } catch(err) {
+    console.log(err)
+    res.status(500).json({message: "Error getting all recipes", error:err.message})
+  }
+})
+
+app.get("/api/recipe/:id", async(req, res) => {
+  
+  const { id } = req.params;
+
+  try {
+    const recipe = await db('recipes').where({ id });
+
+    if (recipe) {
+      res.status(200).json(recipe)
+    } else {
+      res.status(404).json({ error: "Recipe not found"})
+    }
+  } catch (err) {
+    res.status(500).json({ message: "Error getting recipe", error: err.message})
+  }
+})
+
+app.put("/api/recipe/:id", async(req, res) => {
+  const { id } = req.params;
+
+  const { name, ingredients, steps, image_url } = req.body;
+
+  try {
+    const recipe = await db('recipes')
+    .where({ id })
+    .update({name, ingredients, steps, image_url}, ["id", "name", "ingredients", "steps", "image_url"]);
+
+    if (recipe) {
+      res.status(200).json({update: recipe})
+    } else {
+      res.status(404).json({message: "Recipe Not Found"})
+    }
+  } catch (err) {
+    res.status(500).json({message: "Error updating recipe", error: err.message})
+  }
+})
+
+app.delete("/api/recipe/:id", async(req, res) => {
+
+  const { id } = req.params;
+
+  try {
+    const foundRecipe = await db('recipes').where({ id }).del()
+
+    if (foundRecipe) {
+      res.status(204).json({message: "Recipe has been deleted"})
+    } else {
+      res.status(404).json({error: "Recipe not found"})
+    }
+
+  } catch(err) {
+    res.status(500).json({message: "Error deleting recipe", error: err})
+  }
+
+})
+
+
 app.listen(5001, () => {
   console.log("server is running on port 5001");
 });
