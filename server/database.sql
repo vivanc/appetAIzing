@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS recipes;
 CREATE TABLE IF NOT EXISTS recipes (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    ingredients VARCHAR(255),
-    steps VARCHAR(255),
+    ingredients TEXT [],
+    steps TEXT [],
     image_url VARCHAR(255)
 );
