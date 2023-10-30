@@ -2,6 +2,7 @@ import TopSection from "../top-section/top-section.component";
 import NavBar from "../nav-bar/nav-bar.component";
 import RecipeCard from "../recipe-card/recipe-card.component";
 import ViewRecipe from "../view-recipe/view-recipe.component";
+import NavBarPages from "../nav-bar-pages/nav-bar-pages";
 import SearchBar from "../search-bar/search-bar.component";
 import { Container, Row, Col } from "react-bootstrap";
 
@@ -34,7 +35,10 @@ const HomePage = () => {
         <Col className="col-2 text-center">
           <NavBar />
         </Col>
-        <Col className="col">{<RecipeCard />}</Col>
+        <Col className="col">
+          <NavBarPages />
+        </Col>
+        {/* {<RecipeCard />} */}
         {/* && <ViewRecipe /> */}
         {/* && <CreateRecipe /> */}
       </Row>
