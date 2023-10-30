@@ -1,9 +1,13 @@
 import SignUp from "../src/components/sign-up/sign-up.component.js";
 import SignIn from "../src/components/sign-in/sign-in.component.js";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import MainPage from "./components/main-page/main-page.component.js";
 import HomePage from "./components/home-page/home-page.component";
 import CreateRecipe from "./components/create-recipe/create-recipe.component.js";
+import RecipeCard from "./components/recipe-card/recipe-card.component.js";
+import ViewRecipe from "./components/view-recipe/view-recipe.component.js";
+import { NAV_BAR_DATA } from "./components/nav-bar/nav-bar-data";
+import { NavLink } from "react-router-dom";
 import { UserContext } from "./contexts/user.context";
 import { useState } from "react";
 import ProtectedRoutes from "./components/protected-routes/protected-routes.component";
@@ -16,19 +20,24 @@ const App = () => {
   console.log(currentUser);
 
   return (
-    <Router>
-      <UserContext.Provider value={value}>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/signin" element={<SignIn />} />
-          {/* <Route element={<ProtectedRoutes />}> */}
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/create-recipe" element={<CreateRecipe />} />
-          {/* </Route> */}
-        </Routes>
-      </UserContext.Provider>
-    </Router>
+    <>
+      <div>
+        <UserContext.Provider value={value}>
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/home" element={<HomePage />}>
+              {/* <Route element={<ProtectedRoutes />}> */}
+              <Route index element={<RecipeCard />} />
+              <Route path="create-recipe" element={<CreateRecipe />} />
+              <Route path="view-recipe" element={<ViewRecipe />} />
+              {/* </Route> */}
+            </Route>
+          </Routes>
+        </UserContext.Provider>
+      </div>
+    </>
   );
 };
 

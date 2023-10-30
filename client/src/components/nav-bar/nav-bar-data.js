@@ -1,14 +1,14 @@
-export const NavBarData = [
+export const NAV_BAR_DATA = [
   {
     title: "Home",
     path: "/home",
   },
   {
     title: "Add Recipe",
-    path: "/create-recipe",
+    path: "/home/create-recipe",
   },
   {
-    title: "Log Out",
-    path: "",
+    title: "View Recipe",
+    path: "/home/view-recipe",
   },
 ];
