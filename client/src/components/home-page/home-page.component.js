@@ -31,7 +31,14 @@ const HomePage = () => {
       </Row>
       <Row className="h-100">
         <Col className="col-2 d-flex flex-column h3 text-center mt-5">
-          <ProfileLogo className="mx-auto" />
+          <img
+            src={currentUser.picture}
+            alt="authenticated user"
+            width="50"
+            height="50"
+            className="mx-auto mb-3"
+          />
+          {currentUser.name}
           {NAV_BAR_DATA.map((item, index) => {
             return (
               <div key={index} className="py-4 my-3 bg-secondary">
