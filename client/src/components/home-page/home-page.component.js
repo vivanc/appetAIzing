@@ -4,8 +4,15 @@ import RecipeCard from "../recipe-card/recipe-card.component";
 import ViewRecipe from "../view-recipe/view-recipe.component";
 import SearchBar from "../search-bar/search-bar.component";
 import { Container, Row, Col } from "react-bootstrap";
+import { useContext, useEffect } from "react";
+import { RecipesContext } from "../../contexts/recipe.context";
+import axios from "axios";
 
-const HomePage = () => {
+
+const HomePage = ({recipes}) => {
+
+  console.log(recipes);
+
   return (
     <Container fluid style={{ height: "100%", width: "100vw" }}>
       <Row
@@ -34,7 +41,14 @@ const HomePage = () => {
         <Col className="col-2 text-center">
           <NavBar />
         </Col>
-        <Col className="col">{<RecipeCard />}</Col>
+        <Col className="col">
+          {
+            recipes.map((recipe) => {
+              return <RecipeCard  recipe={recipe}/>
+            })
+          }
+          {/*<RecipeCard />*/}
+        </Col>
         {/* && <ViewRecipe /> */}
         {/* && <CreateRecipe /> */}
       </Row>
