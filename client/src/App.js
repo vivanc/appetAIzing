@@ -9,6 +9,7 @@ import ViewRecipe from "./components/view-recipe/view-recipe.component.js";
 import { UserContext } from "./contexts/user.context";
 import { useState } from "react";
 import ProtectedRoutes from "./components/protected-routes/protected-routes.component";
+import { NoMatch } from "./components/no-match/no-match.component";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState({});
@@ -32,6 +33,7 @@ const App = () => {
                 <Route path="view-recipe" element={<ViewRecipe />} />
               </Route>
             </Route>
+            <Route path="*" element={<NoMatch />} />
           </Routes>
         </UserContext.Provider>
       </div>
