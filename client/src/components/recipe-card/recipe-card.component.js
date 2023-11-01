@@ -1,26 +1,24 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import RECIPE from "../../assets/recipe.json";
+// import RECIPE from "../../assets/recipe.json";
 import SearchBar from "../search-bar/search-bar.component";
 
-
 const RecipeCard = (props) => {
-  const {recipe} = props;
+  const { recipe } = props;
   // const [recipeId, setRecipeId] = useState(0);
 
-  let navigate = useNavigate()
+  let navigate = useNavigate();
   const handleRecipeClick = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     // setRecipeId(recipe.id)
-    navigate(`/recipe/${recipe.id}`)
-  }
-  
+    navigate(`recipe/${recipe.id}`);
+  };
+
   return (
     <>
-      <div className="d-flex justify-content-center">
+      {/* <div className="d-flex justify-content-center">
         <SearchBar />
-      </div>
+      </div> */}
 
       <div className="card" style={{ width: "18rem" }}>
         <img
@@ -38,7 +36,11 @@ const RecipeCard = (props) => {
           <h6>Steps:</h6>
           <p className="card-text">{recipe.steps}</p>
           <p className="card-text">.....</p>
-          <button onClick={handleRecipeClick} className="btn btn-warning" type="button">
+          <button
+            onClick={handleRecipeClick}
+            className="btn btn-warning"
+            type="button"
+          >
             Read More
           </button>
         </div>
