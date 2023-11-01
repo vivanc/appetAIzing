@@ -25,11 +25,14 @@ app.post("/api/user", async (req, res) => {
 
 app.post("/api/recipe/new", async (req, res) => {
 
-  const { name, ingredients, steps, image_url } = req.body;
+  let { name, ingredients, steps, image_url } = req.body;
   
   if (!name || !ingredients || !steps || !image_url) {
     return res.status(400).send("Data is missing");
   }
+
+  ingredients = ingredients.split(/\r?\n/)
+  steps = steps.split(/\r?\n/)
 
   try {
     const recipe = await db('recipes').insert({name, ingredients, steps, image_url});
