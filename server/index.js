@@ -45,11 +45,13 @@ app.get("/api/recipes", async(req, res) => {
     const recipes = await db.select("*").from("recipes");
 
     if (recipes) {
+      res.set('Access-Control-Allow-Origin', '*');
       res.status(200).json(recipes)
     } else {
       res.status(404).json("Recipes Not Found")
     }
   } catch(err) {
+    res.set('Access-Control-Allow-Origin', '*');
     console.log(err)
     res.status(500).json({message: "Error getting all recipes", error:err.message})
   }
@@ -63,11 +65,13 @@ app.get("/api/recipe/:id", async(req, res) => {
     const recipe = await db('recipes').where({ id });
 
     if (recipe) {
+      res.set('Access-Control-Allow-Origin', '*');
       res.status(200).json(recipe)
     } else {
       res.status(404).json({ error: "Recipe not found"})
     }
   } catch (err) {
+    res.set('Access-Control-Allow-Origin', '*');
     res.status(500).json({ message: "Error getting recipe", error: err.message})
   }
 })

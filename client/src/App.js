@@ -8,6 +8,7 @@ import { UserContext } from "./contexts/user.context";
 import { useState, useEffect } from "react";
 import ProtectedRoutes from "./components/protected-routes/protected-routes.component";
 import axios from "axios";
+import ViewRecipe from "./components/view-recipe/view-recipe.component.js";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState({});
@@ -22,8 +23,8 @@ const App = () => {
     axios
       .get('http://localhost:5001/api/recipes')
       .then(response => {
-        const retunedRecipes = response.data
-        setRecipes(retunedRecipes)
+        const returnedRecipes = response.data
+        setRecipes(returnedRecipes)
       })
   }, [])
 
@@ -37,6 +38,7 @@ const App = () => {
           {/* <Route element={<ProtectedRoutes />}> */}
           <Route path="/home" element={<HomePage />} />
           <Route path="/create-recipe" element={<CreateRecipe />} />
+          <Route path="/recipe/:recipeId" element={<ViewRecipe />}/>
           {/* </Route> */}
           <Route path="/testhome" element={<HomePage recipes={recipes} />} />
         </Routes>

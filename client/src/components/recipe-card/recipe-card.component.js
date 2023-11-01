@@ -1,5 +1,16 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 const RecipeCard = (props) => {
   const {recipe} = props;
+  // const [recipeId, setRecipeId] = useState(0);
+
+  let navigate = useNavigate()
+  const handleRecipeClick = (e) => {
+    e.preventDefault()
+    // setRecipeId(recipe.id)
+    navigate(`/recipe/${recipe.id}`)
+  }
   
   return (
     <div className="card" style={{ width: "18rem" }}>
@@ -18,7 +29,7 @@ const RecipeCard = (props) => {
         <h6>Steps:</h6>
         <p className="card-text">{recipe.steps}</p>
         <p className="card-text">.....</p>
-        <button className="btn btn-warning" type="button">
+        <button onClick={handleRecipeClick} className="btn btn-warning" type="button">
           Read More
         </button>
       </div>
