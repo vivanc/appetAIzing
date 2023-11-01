@@ -10,9 +10,8 @@ import { UserContext } from "./contexts/user.context";
 import { useState, useEffect } from "react";
 import ProtectedRoutes from "./components/protected-routes/protected-routes.component";
 import axios from "axios";
-import ViewRecipe from "./components/view-recipe/view-recipe.component.js";
 import { NoMatch } from "./components/no-match/no-match.component";
-
+import Recipe from "./components/recipe/recipe.component";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState({});
@@ -23,18 +22,14 @@ const App = () => {
   console.log(currentUser);
 
   useEffect(() => {
-    console.log(recipes)
-    axios
-      .get('http://localhost:5001/api/recipes')
-      .then(response => {
-        const returnedRecipes = response.data
-        setRecipes(returnedRecipes)
-      })
-  }, [])
+    console.log(recipes);
+    axios.get("http://localhost:5001/api/recipes").then((response) => {
+      const returnedRecipes = response.data;
+      setRecipes(returnedRecipes);
+    });
+  }, []);
 
   return (
-
-
     <>
       <div>
         <UserContext.Provider value={value}>
@@ -43,10 +38,11 @@ const App = () => {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
             <Route element={<ProtectedRoutes />}>
-              <Route path="/home" element={<HomePage recipes={recipes} />}>
-                <Route index element={<RecipeCard />} />
+              <Route path="/home" element={<HomePage />}>
+                <Route index element={<Recipe recipes={recipes} />} />
+                {/* <Route index element={<RecipeCard recipes={recipes} />} /> */}
                 <Route path="create-recipe" element={<CreateRecipe />} />
-                <Route path="/recipe/:recipeId" element={<ViewRecipe />}/>
+                <Route path="recipe/:recipeId" element={<ViewRecipe />} />
               </Route>
             </Route>
             <Route path="*" element={<NoMatch />} />
@@ -54,7 +50,6 @@ const App = () => {
         </UserContext.Provider>
       </div>
     </>
-
   );
 };
 
