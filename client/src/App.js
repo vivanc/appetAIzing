@@ -37,14 +37,14 @@ const App = () => {
             <Route path="/" element={<MainPage />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
-            <Route element={<ProtectedRoutes />}>
+            {/* <Route element={<ProtectedRoutes />}> */}
               <Route path="/home" element={<HomePage />}>
                 <Route index element={<Recipe recipes={recipes} />} />
                 {/* <Route index element={<RecipeCard recipes={recipes} />} /> */}
                 <Route path="create-recipe" element={<CreateRecipe />} />
                 <Route path="recipe/:recipeId" element={<ViewRecipe />} />
               </Route>
-            </Route>
+            {/* </Route> */}
             <Route path="*" element={<NoMatch />} />
           </Routes>
         </UserContext.Provider>

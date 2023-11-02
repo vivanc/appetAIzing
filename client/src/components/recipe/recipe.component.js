@@ -9,9 +9,12 @@ const Recipe = (props) => {
       <div className="d-flex justify-content-center">
         <SearchBar />
       </div>
-      {recipes.map((recipe) => {
-        return <RecipeCard recipe={recipe} />;
-      })}
+      <div className="d-flex flex-row">
+        {recipes.map((recipe) => {
+          return <RecipeCard recipe={recipe} />;
+        })}
+      </div>
+
     </>
   );
 };

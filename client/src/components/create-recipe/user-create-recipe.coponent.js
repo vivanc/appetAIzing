@@ -4,7 +4,20 @@ import Form from 'react-bootstrap/Form';
 const UserCreateRecipe = () => {
   return (
     <>
-      <Form>
+      <form>
+        <div>Recipe Name:</div>
+        <div><input type="text" value="" ></input></div>
+        <div>Ingredients:</div>
+        <textarea />
+        <div>Steps:</div>
+        <textarea />
+        {/* Image file component */}
+        <div>
+        <button className='btn btn-primary'>Submit</button>
+        </div>
+        
+      </form>
+      {/* <Form>
         <Form.Group className="mb-3" controlId="">
           <Form.Label>Recipe Name</Form.Label>
           <Form.Control type="text" />
@@ -25,7 +38,7 @@ const UserCreateRecipe = () => {
           Submit Recipe
         </Button>
 
-      </Form>
+      </Form> */}
     </>
   )
 };
