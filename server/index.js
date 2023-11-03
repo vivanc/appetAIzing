@@ -6,6 +6,14 @@ const pg = require('pg');
 //middleware
 app.use(express.json());
 
+//needed header to address CORS error
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  next();
+})
+
 // test api
 app.post("/api/user", async (req, res) => {
   const { name, email, password } = req.body;
@@ -28,6 +36,7 @@ app.post("/api/recipe/new", async (req, res) => {
   let { name, ingredients, steps, image_url } = req.body;
   
   if (!name || !ingredients || !steps || !image_url) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     return res.status(400).send("Data is missing");
   }
 
@@ -35,9 +44,11 @@ app.post("/api/recipe/new", async (req, res) => {
   steps = steps.split(/\r?\n/)
 
   try {
+    res.set('Access-Control-Allow-Origin', '*');
     const recipe = await db('recipes').insert({name, ingredients, steps, image_url});
     res.status(201).send(recipe);
   } catch (err) {
+    res.set('Access-Control-Allow-Origin', '*');
     res.status(500).json({ message: "Error adding recipe", error: err.message });
   }
 

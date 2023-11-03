@@ -1,44 +1,46 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useState } from 'react';
+import axios from 'axios';
 
 const UserCreateRecipe = () => {
+
+  const [newRecipe, setNewRecipe] = useState({
+    name: "",
+    ingredients: "",
+    steps: "",
+    image_url: "http://"
+  })
+
+  const handleInput = (event) => {
+    setNewRecipe({...newRecipe, [event.target.name]: event.target.value })
+    // console.log(newRecipe);
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    console.log(newRecipe)
+    //newRecipe was {newRecipe} what's different?
+    axios.post('http://localhost:5001/api/recipe/new', newRecipe)
+    .then(response => console.log(response))
+    .catch(error => console.log(error))
+  }
+
   return (
     <>
       <form>
         <div>Recipe Name:</div>
-        <div><input type="text" value="" ></input></div>
+        <div><input type="text" onChange={handleInput} name="name"></input></div>
         <div>Ingredients:</div>
-        <textarea />
+        <textarea onChange={handleInput} name="ingredients"/>
         <div>Steps:</div>
-        <textarea />
+        <textarea onChange={handleInput} name="steps"/>
         {/* Image file component */}
         <div>
-        <button className='btn btn-primary'>Submit</button>
+        <button className='btn btn-primary' onClick={handleSubmit}>Submit</button>
         </div>
         
       </form>
-      {/* <Form>
-        <Form.Group className="mb-3" controlId="">
-          <Form.Label>Recipe Name</Form.Label>
-          <Form.Control type="text" />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="">
-          <Form.Label>Ingredients</Form.Label>
-          <Form.Control as="textarea" rows={8} />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="">
-          <Form.Label>Steps</Form.Label>
-          <Form.Control as="textarea" rows={8} />
-        </Form.Group>
-        <Form.Group controlId="formFile" className="mb-3">
-          <Form.Label>Upload Picture</Form.Label>
-          <Form.Control type="file" />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit Recipe
-        </Button>
-
-      </Form> */}
     </>
   )
 };
