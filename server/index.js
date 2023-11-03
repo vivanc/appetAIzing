@@ -45,8 +45,10 @@ app.post("/api/recipe/new", async (req, res) => {
 
   try {
     res.set('Access-Control-Allow-Origin', '*');
-    const recipe = await db('recipes').insert({name, ingredients, steps, image_url});
-    res.status(201).send(recipe);
+
+    //there might be a situation that insert multiple rows
+    const recipes = await db('recipes').insert({name, ingredients, steps, image_url}).returning('*');
+    res.status(201).json(recipes[0]);
   } catch (err) {
     res.set('Access-Control-Allow-Origin', '*');
     res.status(500).json({ message: "Error adding recipe", error: err.message });

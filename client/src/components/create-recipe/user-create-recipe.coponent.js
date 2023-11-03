@@ -1,7 +1,6 @@
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const UserCreateRecipe = () => {
 
@@ -12,6 +11,17 @@ const UserCreateRecipe = () => {
     image_url: "http://"
   })
 
+  const [redirect, setRedirect] = useState(false);
+  const [redirectRoute, setRedirectRoute] = useState('')
+
+  let navigate = useNavigate()
+
+  useEffect(() => {
+     {console.log(redirect)}
+      navigate(redirectRoute)
+  }
+  , [redirect])
+
   const handleInput = (event) => {
     setNewRecipe({...newRecipe, [event.target.name]: event.target.value })
     // console.log(newRecipe);
@@ -19,10 +29,18 @@ const UserCreateRecipe = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    console.log(newRecipe)
     //newRecipe was {newRecipe} what's different?
     axios.post('http://localhost:5001/api/recipe/new', newRecipe)
-    .then(response => console.log(response))
+    .then(response => {
+      //typeof response.data: object; typeof response.data[0]: undefined
+      //because the objects are not indexed like array, can only access with its key
+      // console.log("type of", typeof (response.data))
+      //either use object.key or obeject["key"]
+      // console.log("data content's id", response.data.id)
+      console.log(response.data)
+      setRedirectRoute(`../recipe/${response.data.id}`)
+      setRedirect(true)
+    })
     .catch(error => console.log(error))
   }
 
