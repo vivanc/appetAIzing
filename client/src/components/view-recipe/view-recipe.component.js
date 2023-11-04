@@ -1,29 +1,26 @@
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import "./view-recipe.styles.css";
 
 const ViewRecipe = () => {
-
-  const [recipe, setRecipe] = useState({})
-  let { recipeId } = useParams()
-  console.log(recipeId)
+  const [recipe, setRecipe] = useState({});
+  let { recipeId } = useParams();
+  console.log(recipeId);
 
   useEffect(() => {
     axios
       .get(`http://localhost:5001/api/recipe/${recipeId}`)
-      .then(response => {
-        const returnedRecipe = response.data
-        setRecipe(returnedRecipe[0])
-      })
-  }, [])
-
-
+      .then((response) => {
+        const returnedRecipe = response.data;
+        setRecipe(returnedRecipe[0]);
+      });
+  }, []);
 
   return (
     <div className="card mb-3">
       <img
-        className="card-img-top"
+        className="card-img-top img-cap"
         src={recipe.image_url}
         alt="Card image cap"
       />

@@ -7,8 +7,4 @@ export const NAV_BAR_DATA = [
     title: "Add Recipe",
     path: "/home/create-recipe",
   },
-  {
-    title: "View Recipe",
-    path: "/home/view-recipe",
-  },
 ];
