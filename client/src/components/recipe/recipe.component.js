@@ -6,13 +6,14 @@ const Recipe = (props) => {
 
   return (
     <>
-      <div className="d-flex justify-content-center">
+      <div className="d-flex justify-content-center mt-3">
         <SearchBar />
       </div>
-      <div className="d-flex flex-row">
+      <div className="row row-cols-1 row-cols-md-4 justify-content-center">
         {recipes.map((recipe) => {
           return <RecipeCard recipe={recipe} />;
         })}
+        {/* className="d-flex col-md-12" */}
       </div>
 
     </>

@@ -1,0 +1,4 @@
+.img-cap {
+  aspect-ratio: 10 / 3;
+  object-fit: cover;
+}

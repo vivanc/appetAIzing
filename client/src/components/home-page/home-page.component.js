@@ -8,12 +8,9 @@ import { NAV_BAR_DATA } from "../nav-bar/nav-bar-data.js";
 import { NavLink, useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/user.context";
 
-
-const HomePage = ({recipes}) => {
-  
+const HomePage = ({ recipes }) => {
   console.log(recipes);
-  
-  
+
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -66,7 +63,7 @@ const HomePage = ({recipes}) => {
             Log Out
           </button>
         </Col>
-        <Col className="col">
+        <Col className="col-10">
           <Outlet />
         </Col>
       </Row>
