@@ -15,6 +15,7 @@ const Recipe = (props) => {
         })}
         {/* className="d-flex col-md-12" */}
       </div>
+
     </>
   );
 };
