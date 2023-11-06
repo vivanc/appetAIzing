@@ -1,4 +1,4 @@
-// custom hook = mutation = posting or changing data
+// custom hook = name it mutation = posting or changing data
 // takes care of making api request and updating state
 
 import { useState } from "react";
@@ -10,18 +10,20 @@ const UseMutation = (url) => {
     error: "",
   });
 
-  const fn = async (fileData) => {
+  const fn = async (form) => {
     setState((prev) => ({
       ...prev,
       isLoading: true,
     }));
 
     axios
-      .post(url, fileData)
-      .then(() => {
+      .post(url, form)
+      .then((res) => {
+        console.log(res);
         setState({ isLoading: false, error: "" });
       })
       .catch((error) => {
+        console.log(error);
         setState({ isLoading: false, error: error.message });
       });
   };

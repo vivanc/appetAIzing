@@ -1,16 +1,18 @@
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import UseMutation from "../../components/hooks/useMutation.component";
 
 const validFileTypes = ["image/png", "image/jpg", "image/jpeg"];
 
 const UploadImage = () => {
   // use useMutation hook to access axios and the states
-  //destructure the mutate function, rename mutate to uploadImage...
+  // destructure the mutate function, rename mutate to uploadImage...
   const {
     mutate: uploadImage,
     isLoading: uploading,
     error: uploadError,
-  } = UseMutation("http://localhost:5001/api/images");
+  } = UseMutation("http://localhost:5001/api/image");
 
   const [error, setError] = useState("");
 
@@ -25,18 +27,27 @@ const UploadImage = () => {
       return;
     }
 
-    // need formdata to send it to back end = key/values
+    // need formdata to send it to back end = key/value
     const form = new FormData();
     form.append("image", file);
-    console.log("this is form:");
+    console.log("this is form: 4 types");
+    console.log([...form]);
+    console.log(...form);
     console.log(form);
+    console.log(typeof form);
     await uploadImage(form);
+    // toast notification
+    toast.success("Successfully added image!", {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 2000,
+    });
   };
 
   return (
     <>
       <div>aws s3 upload</div>
       <input id="upload-btn" type="file" hidden onChange={handleUpload} />
+      <ToastContainer />
       <label htmlFor="upload-btn" className="btn btn-warning">
         Upload
       </label>
