@@ -1,17 +1,9 @@
 const express = require("express");
 const app = express();
 const db = require("./db");
-// const pg = require("pg");
 const multer = require("multer");
-// const cors = require("cors");
+const { uploadToS3 } = require("./s3");
 
-// const corsOptions = {
-//   origin: "http://localhost:3000/upload-image",
-//   optionsSuccessStatus: 200,
-// };
-// app.use(cors(corsOptions));
-
-// app.use(cors());
 //middleware
 app.use(express.json());
 
@@ -22,26 +14,21 @@ app.use((req, res, next) => {
   next();
 });
 
+// store imgages to memory (buffer) before storing it to s3
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// s3 - post/upload images
-app.post("/api/images", upload.single("image"), (req, res) => {
-  try {
-    const { file } = req;
-    console.log(req);
-    res.set("Access-Control-Allow-Origin", "*");
-    res.status(200).send(file);
-  } catch (error) {
-    res.set("Access-Control-Allow-Origin", "*");
-    res.status(400).json({ message: "BAD!" });
-  }
+// s3 - post/upload image
+app.post("/api/image", upload.single("image"), (req, res) => {
+  const { file } = req;
+  const userID = "123";
 
-  // if (!file) {
-  //   res.set("Access-Control-Allow-Origin", "*");
-  //   res.status(400).json({ message: "👎" });
-  // }
-  // return res.send("👍");
+  if (!file) return res.status(400).json("BAD");
+
+  const { error, key } = uploadToS3({ file, userID });
+  if (error) return res.status(500).json("failed uploading to S3");
+
+  return res.status(201).json({ key });
 });
 
 // test api
@@ -93,13 +80,13 @@ app.get("/api/recipes", async (req, res) => {
     const recipes = await db.select("*").from("recipes");
 
     if (recipes) {
-      res.set("Access-Control-Allow-Origin", "*");
+      // res.set("Access-Control-Allow-Origin", "*");
       res.status(200).json(recipes);
     } else {
       res.status(404).json("Recipes Not Found");
     }
   } catch (err) {
-    res.set("Access-Control-Allow-Origin", "*");
+    // res.set("Access-Control-Allow-Origin", "*");
     console.log(err);
     res
       .status(500)
@@ -114,13 +101,13 @@ app.get("/api/recipe/:id", async (req, res) => {
     const recipe = await db("recipes").where({ id });
 
     if (recipe) {
-      res.set("Access-Control-Allow-Origin", "*");
+      // res.set("Access-Control-Allow-Origin", "*");
       res.status(200).json(recipe);
     } else {
       res.status(404).json({ error: "Recipe not found" });
     }
   } catch (err) {
-    res.set("Access-Control-Allow-Origin", "*");
+    // res.set("Access-Control-Allow-Origin", "*");
     res
       .status(500)
       .json({ message: "Error getting recipe", error: err.message });
