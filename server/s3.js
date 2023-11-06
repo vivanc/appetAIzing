@@ -1,36 +1,34 @@
 require("dotenv").config({ path: `.env.development` });
-const aws = require("aws-sdk");
-// const crypto = require("crypto");
-// const promiseify = require("util");
+// const aws = require("aws-sdk");
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
-const region = "us-east-1";
-const bucketName = "appetaizing-bucket";
-const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
-const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+const uuid = require("uuid");
 
-const s3 = new aws.S3({
-  region,
-  accessKeyId,
-  secretAccessKey,
-  signatureVersion: "v4",
-});
+// aws.config.update({
+//   region: process.env.AWS_REGION,
+//   accessKeyID: process.env.AWS_ACCESS_KEY_ID,
+//   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+// });
 
-const generateUploadURL = async () => {
-  const rawBytes = randomBytes(16);
-  const imageName = rawBytes.toString("hex"); //makes it harder for anyone to just get images from our bucket
+const s3Client = new S3Client({ region: process.env.AWS_REGION });
+const userID = "123";
 
-  const params = {
-    Bucket: bucketName,
-    Key: imageName,
-    Expires: 60, //url expires in 60secs
-  };
+const uploadToS3 = async ({ file, userID }) => {
+  const key = `${userID}/${uuid.v4()}`;
+  const command = new PutObjectCommand({
+    Bucket: process.env.AWS_BUCKET,
+    Key: key,
+    Body: file.buffer,
+    // ContentType: file.mimetype,
+  });
 
-  const uploadUrl = await s3.getSignedUrlPromise("putObject", params);
-  console.log("upload url is: tada");
-  console.log(uploadUrl);
-  return uploadUrl;
+  try {
+    await s3Client.send(command);
+    return { key };
+  } catch (error) {
+    console.log(error);
+    return { error };
+  }
 };
 
-module.exports = {
-  generateUploadURL,
-};
+module.exports = { uploadToS3 };
