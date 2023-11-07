@@ -6,7 +6,7 @@ import "./view-recipe.styles.css";
 const ViewRecipe = () => {
   const [recipe, setRecipe] = useState({});
   //switch between view mode and edit mode using editing hook
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
   let { recipeId } = useParams();
 
   useEffect(() => {
@@ -17,6 +17,14 @@ const ViewRecipe = () => {
         setRecipe(returnedRecipe[0]);
       });
   }, []);
+
+  //pre-process recipe.steps and recipe.ingredients line by line and put within input value
+  // const convertInput = (elements) => {
+  //   let resultStr = "";
+  //   elements.map((element) => {
+  //     resultStr.concat(element).
+  //   })
+  // }
 
   return (
 
@@ -74,10 +82,13 @@ const ViewRecipe = () => {
                 <h3 className="card-title"><input value={recipe.name}></input></h3>
                 <br />
                 <h5 className="card-title">Ingredients: </h5>
-                <div><input value={recipe.ingredients}></input></div>
+                <div><textarea className="input-style" 
+                value={recipe.ingredients}>
+                  </textarea>
+                  </div>
                 <br />
                 <h5 className="card-title">Steps: </h5>
-                <div><input class="form-control" value={recipe.steps}></input></div>
+                <div><textarea type="text" class="form-control" value={recipe.steps}></textarea></div>
                 </form>
              
         }
