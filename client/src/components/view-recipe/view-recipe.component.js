@@ -47,10 +47,26 @@ const ViewRecipe = () => {
               <h3 className="card-title">{recipe.name}</h3>
               <br />
               <h5 className="card-title">Ingredients: </h5>
-              <p className="card-text">{recipe.ingredients}</p>
+              <p className="card-text">
+              <ul>
+            {
+              recipe.ingredients.map((ingredient, index) => {
+                  return <li>{ingredient}</li>
+              })
+            }
+            </ul>
+                </p>
               <br />
               <h5 className="card-title">Steps: </h5>
-              <p className="card-text">{recipe.steps}</p>
+              <p className="card-text">
+              <ul>
+              {
+                recipe.steps.map((step, index) => {
+                  return <li>{step}</li>
+                })
+              }
+            </ul>
+                </p>
             </>
             :
             
