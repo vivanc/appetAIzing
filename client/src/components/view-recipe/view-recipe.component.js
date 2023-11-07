@@ -5,8 +5,9 @@ import "./view-recipe.styles.css";
 
 const ViewRecipe = () => {
   const [recipe, setRecipe] = useState({});
+  //switch between view mode and edit mode using editing hook
+  const [isEditing, setIsEditing] = useState(false);
   let { recipeId } = useParams();
-  console.log(recipeId);
 
   useEffect(() => {
     axios
@@ -25,12 +26,17 @@ const ViewRecipe = () => {
         alt="Card image cap"
       />
       <div className="d-inline-flex justify-content-end">
-        <button className="btn btn-light" type="button">
+        {
+          isEditing === false ? 
+          <button className="btn btn-light" type="button">
           Edit Recipe
         </button>
+        :
         <button className="btn btn-light" type="button">
           Save Recipe
         </button>
+        }
+        
       </div>
 
       <div className="card-body">
