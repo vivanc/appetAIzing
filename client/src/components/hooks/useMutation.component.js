@@ -4,7 +4,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-const UseMutation = (url) => {
+const useMutation = (url) => {
   const [state, setState] = useState({
     isLoading: false,
     error: "",
@@ -32,4 +32,4 @@ const UseMutation = (url) => {
   return { mutate: fn, ...state };
 };
 
-export default UseMutation;
+export default useMutation;
