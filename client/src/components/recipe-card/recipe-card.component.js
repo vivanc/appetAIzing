@@ -43,20 +43,22 @@ const RecipeCard = (props) => {
               })
             }
             </ul>
-            
-            {console.log(recipe.ingredients)}
-            {/* {recipe.ingredients} */}
           </p>
           <h6>Steps:</h6>
-          <p
-            className="card-text"
-            // styel={{
-            //   display: "block",
-            //   textOverflow: "ellipsis",
-            //   overflow: "hidden",
-            //   maxWidth: "100%",
-            // }}
-          >{`${recipe.steps} ...`}</p>
+          <p className="card-text">
+          <ul>
+              {
+                recipe.steps.map((step, index) => {
+                  if ( index < 3 ) {
+                    return <li>{step}</li>
+                  }
+                  if (index === 3) {
+                    return "......"
+                  }
+                })
+              }
+            </ul>
+          </p>
           <div className="text-end">
             <button
               onClick={handleRecipeClick}
