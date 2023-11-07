@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import UseMutation from "../../components/hooks/useMutation.component";
+import useMutation from "../../components/hooks/useMutation.component";
+import useQuery from "../../components/hooks/useQuery.component";
 
 const validFileTypes = ["image/png", "image/jpg", "image/jpeg"];
 
@@ -12,7 +13,13 @@ const UploadImage = () => {
     mutate: uploadImage,
     isLoading: uploading,
     error: uploadError,
-  } = UseMutation("http://localhost:5001/api/image");
+  } = useMutation("http://localhost:5001/api/image");
+
+  const {
+    data: imageUrl = [],
+    isLoading: imageLoading,
+    error: fetchError,
+  } = useQuery("http://localhost:5001/api/show/image");
 
   const [error, setError] = useState("");
 
@@ -36,6 +43,7 @@ const UploadImage = () => {
     console.log(form);
     console.log(typeof form);
     await uploadImage(form);
+
     // toast notification
     toast.success("Successfully added image!", {
       position: toast.POSITION.TOP_CENTER,
@@ -53,6 +61,9 @@ const UploadImage = () => {
       </label>
       <div className="text-danger">{error && `${error}`}</div>
       <div className="text-danger">{uploadError && `${uploadError}`}</div>
+      <br />
+      <div>Display</div>
+      <div className="text-danger">{fetchError && `${fetchError}`}</div>
     </>
   );
 };
