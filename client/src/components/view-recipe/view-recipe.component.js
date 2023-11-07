@@ -19,6 +19,7 @@ const ViewRecipe = () => {
   }, []);
 
   return (
+
     <div className="card mb-3">
       <img
         className="card-img-top img-cap"
@@ -27,28 +28,47 @@ const ViewRecipe = () => {
       />
       <div className="d-inline-flex justify-content-end">
         {
-          isEditing === false ? 
-          <button className="btn btn-light" type="button">
-          Edit Recipe
-        </button>
-        :
-        <button className="btn btn-light" type="button">
-          Save Recipe
-        </button>
+          isEditing === false ?
+            <button className="btn btn-light" type="button">
+              Edit Recipe
+            </button>
+            :
+            <button className="btn btn-light" type="button">
+              Save Recipe
+            </button>
         }
-        
+
       </div>
 
       <div className="card-body">
-        <h3 className="card-title">{recipe.name}</h3>
-        <br />
-        <h5 className="card-title">Ingredients: </h5>
-        <p className="card-text">{recipe.ingredients}</p>
-        <br />
-        <h5 className="card-title">Steps: </h5>
-        <p className="card-text">{recipe.steps}</p>
+        {
+          isEditing === false ?
+            <>
+              <h3 className="card-title">{recipe.name}</h3>
+              <br />
+              <h5 className="card-title">Ingredients: </h5>
+              <p className="card-text">{recipe.ingredients}</p>
+              <br />
+              <h5 className="card-title">Steps: </h5>
+              <p className="card-text">{recipe.steps}</p>
+            </>
+            :
+            
+              <form>
+                <h3 className="card-title"><input value={recipe.name}></input></h3>
+                <br />
+                <h5 className="card-title">Ingredients: </h5>
+                <div><input value={recipe.ingredients}></input></div>
+                <br />
+                <h5 className="card-title">Steps: </h5>
+                <div><input class="form-control" value={recipe.steps}></input></div>
+                </form>
+             
+        }
+
       </div>
     </div>
-  );
+  
+      );
 };
-export default ViewRecipe;
+      export default ViewRecipe;
