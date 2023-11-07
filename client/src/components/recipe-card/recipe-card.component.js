@@ -29,7 +29,24 @@ const RecipeCard = (props) => {
         <div className="card-body text-truncate">
           <h4 className="card-title">{recipe.name}</h4>
           <h6>Ingredients:</h6>
-          <p className="card-text">{recipe.ingredients}</p>
+          <p className="card-text">
+            <ul>
+            {
+              recipe.ingredients.map((ingredient, index) => {
+                if (index < 3) {
+                  return <li>{ingredient}</li>
+                }
+                if (index === 3) {
+                  return "......"
+                }
+                
+              })
+            }
+            </ul>
+            
+            {console.log(recipe.ingredients)}
+            {/* {recipe.ingredients} */}
+          </p>
           <h6>Steps:</h6>
           <p
             className="card-text"
