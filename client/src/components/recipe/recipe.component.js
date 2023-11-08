@@ -13,7 +13,6 @@ const Recipe = (props) => {
         {recipes.map((recipe) => {
           return <RecipeCard recipe={recipe} key={recipe.id} />;
         })}
-        {/* className="d-flex col-md-12" */}
       </div>
     </>
   );
