@@ -12,6 +12,7 @@ import ProtectedRoutes from "./components/protected-routes/protected-routes.comp
 import axios from "axios";
 import { NoMatch } from "./components/no-match/no-match.component";
 import Recipe from "./components/recipe/recipe.component";
+import UploadImage from "./components/upload-image/upload-image.component";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState({});
@@ -45,6 +46,7 @@ const App = () => {
             </Route>
             {/* </Route> */}
             <Route path="*" element={<NoMatch />} />
+            <Route path="/upload-image" element={<UploadImage />} />
           </Routes>
         </UserContext.Provider>
       </div>
