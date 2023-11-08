@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const db = require("./db");
 const multer = require("multer");
-const { uploadToS3 } = require("./s3");
+const { uploadToS3, getUserPresignedUrls } = require("./s3");
 
 //middleware
 app.use(express.json());
@@ -20,15 +20,31 @@ const upload = multer({ storage });
 
 // s3 - post/upload image
 app.post("/api/image", upload.single("image"), (req, res) => {
+  debugger;
   const { file } = req;
   const userID = "123";
+
+  console.log(userID);
+  console.log(file);
 
   if (!file) return res.status(400).json("BAD");
 
   const { error, key } = uploadToS3({ file, userID });
-  if (error) return res.status(500).json("failed uploading to S3");
 
+  if (error) return res.status(500).json("failed uploading to S3");
   return res.status(201).json({ key });
+});
+
+// s3 disply images
+app.get("/api/show/image", async (req, res) => {
+  const userID = "123";
+
+  if (!userID) return res.status(400).json("no userID!");
+
+  const { error, presignedUrls } = await getUserPresignedUrls(userID);
+  if (error) return res.status(400).json(error.message);
+
+  return res.json(presignedUrls);
 });
 
 // test api
