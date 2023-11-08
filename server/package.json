@@ -5,12 +5,13 @@
   "main": "service.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node --inspect index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.441.0",
+    "@aws-sdk/s3-request-presigner": "^3.441.0",
     "aws-sdk": "^2.1487.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
