@@ -1,31 +1,64 @@
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const UserCreateRecipe = () => {
+
+  const [newRecipe, setNewRecipe] = useState({
+    name: "",
+    ingredients: "",
+    steps: "",
+    image_url: "http://"
+  })
+
+  const [redirect, setRedirect] = useState(false);
+  const [redirectRoute, setRedirectRoute] = useState('')
+
+  let navigate = useNavigate()
+
+  useEffect(() => {
+     {console.log(redirect)}
+      navigate(redirectRoute)
+  }
+  , [redirect])
+
+  const handleInput = (event) => {
+    setNewRecipe({...newRecipe, [event.target.name]: event.target.value })
+    // console.log(newRecipe);
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    //newRecipe was {newRecipe} what's different?
+    axios.post('http://localhost:5001/api/recipe/new', newRecipe)
+    .then(response => {
+      //typeof response.data: object; typeof response.data[0]: undefined
+      //because the objects are not indexed like array, can only access with its key
+      // console.log("type of", typeof (response.data))
+      //either use object.key or obeject["key"]
+      // console.log("data content's id", response.data.id)
+      console.log(response.data)
+      setRedirectRoute(`../recipe/${response.data.id}`)
+      setRedirect(true)
+    })
+    .catch(error => console.log(error))
+  }
+
   return (
     <>
-      <Form>
-        <Form.Group className="mb-3" controlId="">
-          <Form.Label>Recipe Name</Form.Label>
-          <Form.Control type="text" />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="">
-          <Form.Label>Ingredients</Form.Label>
-          <Form.Control as="textarea" rows={8} />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="">
-          <Form.Label>Steps</Form.Label>
-          <Form.Control as="textarea" rows={8} />
-        </Form.Group>
-        <Form.Group controlId="formFile" className="mb-3">
-          <Form.Label>Upload Picture</Form.Label>
-          <Form.Control type="file" />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit Recipe
-        </Button>
-
-      </Form>
+      <form>
+        <div>Recipe Name:</div>
+        <div><input type="text" onChange={handleInput} name="name"></input></div>
+        <div>Ingredients:</div>
+        <textarea onChange={handleInput} name="ingredients"/>
+        <div>Steps:</div>
+        <textarea onChange={handleInput} name="steps"/>
+        {/* Image file component */}
+        <div>
+        <button className='btn btn-primary' onClick={handleSubmit}>Submit</button>
+        </div>
+        
+      </form>
     </>
   )
 };
