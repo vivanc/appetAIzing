@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
+// custom hook to handle fetch image from s3
 const useQuery = (url, refetch) => {
   const [state, setState] = useState({
     data: null,
