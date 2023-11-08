@@ -11,11 +11,10 @@ const Recipe = (props) => {
       </div>
       <div className="row row-cols-1 row-cols-md-4 justify-content-center">
         {recipes.map((recipe) => {
-          return <RecipeCard recipe={recipe} />;
+          return <RecipeCard recipe={recipe} key={recipe.id} />;
         })}
         {/* className="d-flex col-md-12" */}
       </div>
-
     </>
   );
 };
