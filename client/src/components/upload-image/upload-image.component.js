@@ -7,6 +7,8 @@ import useQuery from "../../components/hooks/useQuery.component";
 const validFileTypes = ["image/png", "image/jpg", "image/jpeg"];
 
 const UploadImage = () => {
+  const [refetch, setRefetch] = useState(0);
+
   // use useMutation hook to access axios and the states
   // destructure the mutate function, rename mutate to uploadImage...
   const {
@@ -19,7 +21,7 @@ const UploadImage = () => {
     data: imageUrl = [],
     isLoading: imageLoading,
     error: fetchError,
-  } = useQuery("http://localhost:5001/api/show/image");
+  } = useQuery("http://localhost:5001/api/show/image", refetch);
 
   const [error, setError] = useState("");
 
@@ -37,17 +39,18 @@ const UploadImage = () => {
     // need formdata to send it to back end = key/value
     const form = new FormData();
     form.append("image", file);
-    console.log("this is form: 4 types");
-    console.log([...form]);
     console.log(...form);
-    console.log(form);
-    console.log(typeof form);
     await uploadImage(form);
+
+    // set timeout for refetch 1sec
+    setTimeout(() => {
+      setRefetch((s) => s + 1);
+    }, 1000);
 
     // toast notification
     toast.success("Successfully added image!", {
       position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000,
+      autoClose: 1000,
     });
   };
 
@@ -64,6 +67,15 @@ const UploadImage = () => {
       <br />
       <div>Display</div>
       <div className="text-danger">{fetchError && `${fetchError}`}</div>
+      <div className="text-muted">
+        {!fetchError && imageUrl?.length === 0 && `No images found`}
+      </div>
+      <div>
+        {imageUrl?.length > 0 &&
+          imageUrl.map((iurl) => (
+            <img src={iurl} alt="uploaded image" key={iurl} />
+          ))}
+      </div>
     </>
   );
 };

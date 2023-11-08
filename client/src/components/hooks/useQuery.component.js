@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-const useQuery = (url) => {
+const useQuery = (url, refetch) => {
   const [state, setState] = useState({
     data: null,
     isLoading: true,
@@ -18,7 +18,7 @@ const useQuery = (url) => {
         );
     };
     fetch();
-  }, [url]);
+  }, [url, refetch]);
 
   return state;
 };
