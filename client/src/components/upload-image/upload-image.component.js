@@ -10,8 +10,6 @@ const UploadImage = () => {
   // for auto-refetch whenever the image is attached
   const [refetch, setRefetch] = useState(0);
 
-  // use useMutation hook to access axios and the states
-  // destructure the mutate function, rename mutate to uploadImage...
   const {
     mutate: uploadImage,
     isLoading: uploading,
@@ -37,7 +35,7 @@ const UploadImage = () => {
       return;
     }
 
-    // need formdata to send it to back end = key/value
+    // need FormData to send it to back end = key(file name)/value(file itself)
     const form = new FormData();
     form.append("image", file);
     console.log(...form);
@@ -57,7 +55,6 @@ const UploadImage = () => {
 
   return (
     <>
-      <div>aws s3 upload</div>
       <input id="upload-btn" type="file" hidden onChange={handleUpload} />
       <ToastContainer />
       <label htmlFor="upload-btn" className="btn btn-warning">
