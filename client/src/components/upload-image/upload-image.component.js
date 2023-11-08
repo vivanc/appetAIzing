@@ -7,6 +7,7 @@ import useQuery from "../../components/hooks/useQuery.component";
 const validFileTypes = ["image/png", "image/jpg", "image/jpeg"];
 
 const UploadImage = () => {
+  // for auto-refetch whenever the image is attached
   const [refetch, setRefetch] = useState(0);
 
   // use useMutation hook to access axios and the states

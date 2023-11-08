@@ -1,5 +1,4 @@
-// custom hook = name it mutation = posting or changing data
-// takes care of making api request and updating state
+// custom hook to put image on s3
 
 import { useState } from "react";
 import axios from "axios";
