@@ -1,0 +1,14 @@
+.img-cap {
+  aspect-ratio: 10 / 3;
+  object-fit: cover;
+}
+
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 15rem;
+  resize: none;
+  
+}
