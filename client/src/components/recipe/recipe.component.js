@@ -1,8 +1,11 @@
 import RecipeCard from "../recipe-card/recipe-card.component";
 import SearchBar from "../search-bar/search-bar.component";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { RecipesContext } from "../../contexts/recipe.context";
+import axios from "axios";
 
-const Recipe = ({ recipes }) => {
+const Recipe = () => {
+  const { recipes, setRecipes } = useContext(RecipesContext);
   const [searchField, setSearchField] = useState("");
   const [filteredRecipes, setFilteredRecipes] = useState(recipes);
 
@@ -11,8 +14,19 @@ const Recipe = ({ recipes }) => {
   };
 
   useEffect(() => {
-    const newFilteredRecipes = recipes.filter((recipe) => {
-      return recipe.name.toLowerCase().includes(searchField);
+    const fetchRecipes = () => {
+      axios.get("http://localhost:5001/api/recipes").then((response) => {
+        const returnedRecipes = response.data;
+        setRecipes(returnedRecipes);
+      });
+    };
+
+    fetchRecipes();
+  }, []);
+
+  useEffect(() => {
+    const newFilteredRecipes = recipes.filter((oneRecipe) => {
+      return oneRecipe.name.toLowerCase().includes(searchField);
     });
     setFilteredRecipes(newFilteredRecipes);
   }, [recipes, searchField]);
@@ -24,7 +38,7 @@ const Recipe = ({ recipes }) => {
       </div>
       <div className="row row-cols-1 row-cols-md-4 justify-content-center">
         {recipes.map((recipe) => {
-          return <RecipeCard recipe={filteredRecipes} />;
+          return <RecipeCard recipe={recipe} key={recipe.id} />;
         })}
       </div>
     </>

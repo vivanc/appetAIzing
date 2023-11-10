@@ -6,12 +6,10 @@ import "./recipe-card.styles.css";
 
 const RecipeCard = (props) => {
   const { recipe } = props;
-  // const [recipeId, setRecipeId] = useState(0);
 
   let navigate = useNavigate();
   const handleRecipeClick = (e) => {
     e.preventDefault();
-    // setRecipeId(recipe.id)
     navigate(`recipe/${recipe.id}`);
   };
 
