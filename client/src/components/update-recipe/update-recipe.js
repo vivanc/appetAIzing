@@ -9,6 +9,7 @@ const UpdateRecipe = () => {
     // const [editedRecipe, setEditedRecipe] = useState({name: '', ingredients:'', steps: ''})
     let { recipeId } = useParams();
     let navigate = useNavigate();
+ 
 
     const handleInput = (event) => {
         console.log(event.target.name, event.target.value)
