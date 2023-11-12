@@ -5,10 +5,8 @@ DROP TABLE IF EXISTS users;
 
 -- Create the table if it does not exist
 CREATE TABLE IF NOT EXISTS users (
-    id SERIAL PRIMARY KEY,
+    id VARCHAR(255) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL
 );
 
 -- Drop the table if it exists
