@@ -51,14 +51,14 @@ app.get("/api/show/image", async (req, res) => {
 
 // test api
 app.post("/api/user", async (req, res) => {
-  const { name, email, password } = req.body;
+  const { id, name } = req.body;
   console.log(req.body);
-  if (!name || !email || !password) {
+  if (!id || !email) {
     return res.status(400).send("Data is missing");
   }
 
   try {
-    const user = await db("users").insert({ name, email, password });
+    const user = await db("users").insert({ id, name });
     res.status(201).send(user);
   } catch (err) {
     console.error(err);
@@ -67,9 +67,9 @@ app.post("/api/user", async (req, res) => {
 });
 
 app.post("/api/recipe/new", async (req, res) => {
-  let { name, ingredients, steps, image_url } = req.body;
+  let { user_id, name, ingredients, steps, image_url } = req.body;
 
-  if (!name || !ingredients || !steps || !image_url) {
+  if (!user_id || !name || !ingredients || !steps || !image_url) {
     return res.status(400).send("Data is missing");
   }
 
@@ -77,8 +77,8 @@ app.post("/api/recipe/new", async (req, res) => {
   steps = steps.split(/\r?\n/);
 
   try {
-    //there might be a situation that insert multiple rows
-    const recipes = await db('recipes').insert({name, ingredients, steps, image_url}).returning('*');
+    //there might be a situation that inserts multiple rows
+    const recipes = await db('recipes').insert({user_id, name, ingredients, steps, image_url}).returning('*');
     res.status(201).json(recipes[0]);
   } catch (err) {
     res.status(500).json({ message: "Error adding recipe", error: err.message });
@@ -86,9 +86,11 @@ app.post("/api/recipe/new", async (req, res) => {
   }
 });
 
+//tbd
 app.get("/api/recipes", async (req, res) => {
   try {
-    const recipes = await db.select("*").from("recipes");
+    const user_id = req.query.user_id
+    const recipes = await db.select("*").from("recipes").where('user_id', user_id);
 
     if (recipes) {
       res.status(200).json(recipes)

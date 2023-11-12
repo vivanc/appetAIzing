@@ -1,10 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../contexts/user.context';
 
 const UserCreateRecipe = () => {
 
+  const { currentUser } = useContext(UserContext);
+
   const [newRecipe, setNewRecipe] = useState({
+    user_id: currentUser.sub,
     name: "",
     ingredients: "",
     steps: "",
@@ -24,6 +28,7 @@ const UserCreateRecipe = () => {
 
   const handleInput = (event) => {
     setNewRecipe({...newRecipe, [event.target.name]: event.target.value })
+    // console.log(newRecipe)
     // console.log(newRecipe);
   }
 

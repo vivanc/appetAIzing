@@ -25,7 +25,11 @@ const App = () => {
 
   useEffect(() => {
     console.log(recipes);
-    axios.get("http://localhost:5001/api/recipes").then((response) => {
+    axios.get("http://localhost:5001/api/recipes", {
+      params: {
+        user_id: currentUser.sub
+      }
+    }).then((response) => {
       const returnedRecipes = response.data;
       setRecipes(returnedRecipes);
     });
