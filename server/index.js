@@ -77,7 +77,7 @@ app.post("/api/recipe/new", async (req, res) => {
   steps = steps.split(/\r?\n/);
 
   try {
-    //there might be a situation that insert multiple rows
+    //there might be a situation that inserts multiple rows
     const recipes = await db('recipes').insert({name, ingredients, steps, image_url}).returning('*');
     res.status(201).json(recipes[0]);
   } catch (err) {
