@@ -15,7 +15,7 @@ DROP TABLE IF EXISTS recipes;
 -- Create the table if it does not exist
 CREATE TABLE IF NOT EXISTS recipes (
     id SERIAL PRIMARY KEY,
-    user_id varchar(255) references users(id),
+    user_id varchar(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
     ingredients TEXT [],
     steps TEXT [],
