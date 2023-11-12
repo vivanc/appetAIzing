@@ -51,14 +51,14 @@ app.get("/api/show/image", async (req, res) => {
 
 // test api
 app.post("/api/user", async (req, res) => {
-  const { name, email, password } = req.body;
+  const { id, name } = req.body;
   console.log(req.body);
-  if (!name || !email || !password) {
+  if (!id || !email) {
     return res.status(400).send("Data is missing");
   }
 
   try {
-    const user = await db("users").insert({ name, email, password });
+    const user = await db("users").insert({ id, name });
     res.status(201).send(user);
   } catch (err) {
     console.error(err);
