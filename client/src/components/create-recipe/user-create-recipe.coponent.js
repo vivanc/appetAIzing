@@ -1,20 +1,17 @@
-import { useContext, useEffect, useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../contexts/user.context';
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../contexts/user.context";
 import UploadImage from "../upload-image/upload-image.component";
 import { ToastContainer, toast } from "react-toastify";
 import useMutation from "../../components/hooks/useMutation.component";
 import useQuery from "../../components/hooks/useQuery.component";
 
-
 const validFileTypes = ["image/png", "image/jpg", "image/jpeg"];
 
-
 const UserCreateRecipe = () => {
-
   const { currentUser } = useContext(UserContext);
-  
+
   const [newRecipe, setNewRecipe] = useState({
     user_id: currentUser.sub,
     name: "",
@@ -48,8 +45,6 @@ const UserCreateRecipe = () => {
   console.log("here the imageurl: ");
   console.log(imageUrl);
 
-  let navigate = useNavigate();
-
   // once recipe created and submitted, trigger redirect to view recipe by id
   let navigate = useNavigate();
   useEffect(() => {
@@ -61,7 +56,6 @@ const UserCreateRecipe = () => {
 
   // set recipe to user input
   const handleInput = (event) => {
-
     setNewRecipe({
       ...newRecipe,
       [event.target.name]: event.target.value,
