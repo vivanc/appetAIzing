@@ -2,7 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 const AICreateRecipe = () => {
-    console.log("ai recipe is rendring");
+    // console.log("ai recipe is rendring");
     return (
         <>
             <Form>

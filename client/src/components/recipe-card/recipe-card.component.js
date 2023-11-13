@@ -13,6 +13,8 @@ const RecipeCard = (props) => {
     navigate(`recipe/${recipe.id}`);
   };
 
+  console.log("recipe card render!");
+
   return (
     <>
       <div className="card m-3" style={{ width: "18rem" }}>

@@ -21,6 +21,8 @@ const App = () => {
   const [recipes, setRecipes] = useState([]);
   const recipesValue = { recipes, setRecipes };
 
+  console.log("app.js render");
+
   return (
     <>
       <div>

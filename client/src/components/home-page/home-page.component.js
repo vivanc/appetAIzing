@@ -8,13 +8,14 @@ import { UserContext } from "../../contexts/user.context";
 
 const HomePage = () => {
   const { currentUser, setCurrentUser } = useContext(UserContext);
-
   const navigate = useNavigate();
 
   const handleLogout = () => {
     setCurrentUser({});
     navigate("/");
   };
+
+  console.log("home page render.");
 
   return (
     <Container fluid style={{ height: "100%", width: "100vw" }}>

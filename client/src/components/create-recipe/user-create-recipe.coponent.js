@@ -17,7 +17,7 @@ const UserCreateRecipe = () => {
 
   useEffect(() => {
     {
-      console.log(redirect);
+      // console.log(redirect);
     }
     navigate(redirectRoute);
   }, [redirect]);
@@ -44,6 +44,8 @@ const UserCreateRecipe = () => {
       })
       .catch((error) => console.log(error));
   };
+
+  console.log("user create recipe component render:");
 
   return (
     <>
