@@ -1,45 +1,57 @@
 import RecipeCard from "../recipe-card/recipe-card.component";
-import SearchBar from "../search-bar/search-bar.component";
 import { useState, useEffect, useContext } from "react";
 import { RecipesContext } from "../../contexts/recipe.context";
 import axios from "axios";
 
 const Recipe = () => {
   const { recipes, setRecipes } = useContext(RecipesContext);
-  const [searchField, setSearchField] = useState("");
-  const [filteredRecipes, setFilteredRecipes] = useState(recipes);
-
-  const handleSearch = (e) => {
-    setSearchField(e.target.value.toLowerCase());
-  };
+  const [initialRecipes, setInitialRecipes] = useState([]);
+  const [input, setInput] = useState("");
 
   useEffect(() => {
-    const fetchRecipes = () => {
-      axios.get("http://localhost:5001/api/recipes").then((response) => {
-        const returnedRecipes = response.data;
-        setRecipes(returnedRecipes);
-      });
-    };
-
-    fetchRecipes();
+    axios.get("http://localhost:5001/api/recipes").then((response) => {
+      const returnedRecipes = response.data;
+      setInitialRecipes(returnedRecipes);
+      console.log("recipe component render inside useEffect");
+    });
   }, []);
 
-  useEffect(() => {
-    const newFilteredRecipes = recipes.filter((oneRecipe) => {
-      return oneRecipe.name.toLowerCase().includes(searchField);
+  const filterRecipes = (value) => {
+    axios.get("http://localhost:5001/api/recipes").then((response) => {
+      const returnedRecipes = response.data;
+      const results = returnedRecipes.filter((r) => {
+        return r.name && r.name.toLowerCase().includes(value);
+      });
+      setRecipes(results);
     });
-    setFilteredRecipes(newFilteredRecipes);
-  }, [recipes, searchField]);
+  };
+
+  const handleSearch = (value) => {
+    setInput(value);
+    filterRecipes(value);
+  };
+
+  console.log("recipe component render");
 
   return (
     <>
       <div className="d-flex justify-content-center mt-3">
-        <SearchBar onChagneHandler={handleSearch} />
+        <input
+          className="form-control rounded"
+          type="search"
+          placeholder="search recipe.."
+          value={input}
+          onChange={(e) => handleSearch(e.target.value)}
+        />
       </div>
       <div className="row row-cols-1 row-cols-md-4 justify-content-center">
-        {recipes.map((recipe) => {
-          return <RecipeCard recipe={recipe} key={recipe.id} />;
-        })}
+        {input.length === 0
+          ? initialRecipes.map((recipe) => {
+              return <RecipeCard recipe={recipe} key={recipe.id} />;
+            })
+          : recipes.map((recipe) => {
+              return <RecipeCard recipe={recipe} key={recipe.id} />;
+            })}
       </div>
     </>
   );
