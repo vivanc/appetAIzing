@@ -1,16 +1,12 @@
 import TopSection from "../top-section/top-section.component";
 import { Container, Row, Col } from "react-bootstrap";
 import { useContext, useEffect } from "react";
-import { RecipesContext } from "../../contexts/recipe.context";
-import axios from "axios";
 import { Outlet } from "react-router-dom";
 import { NAV_BAR_DATA } from "../nav-bar/nav-bar-data.js";
 import { NavLink, useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/user.context";
 
-const HomePage = ({ recipes }) => {
-  console.log(recipes);
-
+const HomePage = () => {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -18,6 +14,8 @@ const HomePage = ({ recipes }) => {
     setCurrentUser({});
     navigate("/");
   };
+
+  console.log("home page render.");
 
   return (
     <Container fluid style={{ height: "100%", width: "100vw" }}>
