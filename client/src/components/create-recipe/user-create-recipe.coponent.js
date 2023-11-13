@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/user.context";
-import UploadImage from "../upload-image/upload-image.component";
 import { ToastContainer, toast } from "react-toastify";
 import useMutation from "../../components/hooks/useMutation.component";
 import useQuery from "../../components/hooks/useQuery.component";
@@ -24,7 +23,6 @@ const UserCreateRecipe = () => {
   const [redirectRoute, setRedirectRoute] = useState("");
 
   const [error, setError] = useState(""); // file type check error
-  // const [refetch, setRefetch] = useState(0);
   const [file, setFile] = useState(null); // file/image object
 
   // custom hook to upload image to s3
@@ -40,17 +38,14 @@ const UserCreateRecipe = () => {
     isLoading: imageLoading,
     error: fetchError,
   } = useQuery("http://localhost:5001/api/show/image");
-  // , refetch
 
   console.log("here the imageurl: ");
   console.log(imageUrl);
 
   // once recipe created and submitted, trigger redirect to view recipe by id
   let navigate = useNavigate();
+
   useEffect(() => {
-    {
-      // console.log(redirect);
-    }
     navigate(redirectRoute);
   }, [redirect]);
 
@@ -61,7 +56,6 @@ const UserCreateRecipe = () => {
       [event.target.name]: event.target.value,
       image_url: imageUrl[imageUrl.length - 1],
     });
-    // console.log(newRecipe);
   };
 
   // handle image upload
