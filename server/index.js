@@ -51,14 +51,14 @@ app.get("/api/show/image", async (req, res) => {
 
 // test api
 app.post("/api/user", async (req, res) => {
-  const { name, email, password } = req.body;
+  const { id, name } = req.body;
   console.log(req.body);
-  if (!name || !email || !password) {
+  if (!id || !email) {
     return res.status(400).send("Data is missing");
   }
 
   try {
-    const user = await db("users").insert({ name, email, password });
+    const user = await db("users").insert({ id, name });
     res.status(201).send(user);
   } catch (err) {
     console.error(err);
@@ -67,10 +67,9 @@ app.post("/api/user", async (req, res) => {
 });
 
 app.post("/api/recipe/new", async (req, res) => {
-  let { name, ingredients, steps, image_url } = req.body;
+  let { user_id, name, ingredients, steps, image_url } = req.body;
 
-  if (!name || !ingredients || !steps || !image_url) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+  if (!user_id || !name || !ingredients || !steps || !image_url) {
     return res.status(400).send("Data is missing");
   }
 
@@ -78,30 +77,28 @@ app.post("/api/recipe/new", async (req, res) => {
   steps = steps.split(/\r?\n/);
 
   try {
-    res.set('Access-Control-Allow-Origin', '*');
-
-    //there might be a situation that insert multiple rows
-    const recipes = await db('recipes').insert({name, ingredients, steps, image_url}).returning('*');
+    //there might be a situation that inserts multiple rows
+    const recipes = await db('recipes').insert({user_id, name, ingredients, steps, image_url}).returning('*');
     res.status(201).json(recipes[0]);
   } catch (err) {
-    res.set('Access-Control-Allow-Origin', '*');
     res.status(500).json({ message: "Error adding recipe", error: err.message });
 
   }
 });
 
+//tbd
 app.get("/api/recipes", async (req, res) => {
   try {
-    const recipes = await db.select("*").from("recipes");
+    const user_id = req.query.user_id
+    const recipes = await db.select("*").from("recipes").where('user_id', user_id);
 
     if (recipes) {
-      // res.set("Access-Control-Allow-Origin", "*");
-      res.status(200).json(recipes);
+      res.status(200).json(recipes)
     } else {
       res.status(404).json("Recipes Not Found");
     }
+
   } catch (err) {
-    // res.set("Access-Control-Allow-Origin", "*");
     console.log(err);
     res
       .status(500)
@@ -116,13 +113,12 @@ app.get("/api/recipe/:id", async (req, res) => {
     const recipe = await db("recipes").where({ id });
 
     if (recipe) {
-      // res.set("Access-Control-Allow-Origin", "*");
-      res.status(200).json(recipe);
+
+      res.status(200).json(recipe)
     } else {
       res.status(404).json({ error: "Recipe not found" });
     }
   } catch (err) {
-    // res.set("Access-Control-Allow-Origin", "*");
     res
       .status(500)
       .json({ message: "Error getting recipe", error: err.message });
