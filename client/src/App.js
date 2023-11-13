@@ -14,6 +14,7 @@ import axios from "axios";
 import { NoMatch } from "./components/no-match/no-match.component";
 import Recipe from "./components/recipe/recipe.component";
 import UploadImage from "./components/upload-image/upload-image.component";
+import UpdateRecipe from "./components/update-recipe/update-recipe.js";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState({});
@@ -23,9 +24,11 @@ const App = () => {
 
   console.log("app.js render");
 
+
   return (
     <>
       <div>
+
         <UserContext.Provider value={userValue}>
           <RecipesContext.Provider value={recipesValue}>
             <Routes>
@@ -38,6 +41,7 @@ const App = () => {
                 <Route index element={<Recipe />} />
                 <Route path="create-recipe" element={<CreateRecipe />} />
                 <Route path="recipe/:recipeId" element={<ViewRecipe />} />
+                <Route path="recipe/:recipeId/edit" element={<UpdateRecipe/>}/>
               </Route>
 
               {/* </Route> */}

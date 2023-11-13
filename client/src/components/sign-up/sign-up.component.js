@@ -17,7 +17,6 @@ const SignUp = () => {
   const handleCallbackResponse = (r) => {
     console.log("Encoded JWT ID token: " + r.credential);
     const currentUserObject = jwt_decode(r.credential);
-    console.log(currentUserObject);
     setCurrentUser(currentUserObject);
     navigate("/home");
   };
