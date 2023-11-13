@@ -1,19 +1,27 @@
 import RecipeCard from "../recipe-card/recipe-card.component";
 import { useState, useEffect, useContext } from "react";
 import { RecipesContext } from "../../contexts/recipe.context";
+import { UserContext } from "../../contexts/user.context";
 import axios from "axios";
 
 const Recipe = () => {
   const { recipes, setRecipes } = useContext(RecipesContext);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
   const [initialRecipes, setInitialRecipes] = useState([]);
   const [input, setInput] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:5001/api/recipes").then((response) => {
-      const returnedRecipes = response.data;
-      setInitialRecipes(returnedRecipes);
-      console.log("recipe component render inside useEffect");
-    });
+    axios
+      .get("http://localhost:5001/api/recipes", {
+        params: {
+          user_id: currentUser.sub,
+        },
+      })
+      .then((response) => {
+        const returnedRecipes = response.data;
+        setInitialRecipes(returnedRecipes);
+        console.log("recipe component render inside useEffect");
+      });
   }, []);
 
   const filterRecipes = (value) => {
