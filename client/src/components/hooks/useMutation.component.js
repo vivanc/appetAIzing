@@ -1,9 +1,11 @@
 // custom hook to put image on s3
 
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
+import { UserContext } from "../../contexts/user.context";
 
 const useMutation = (url) => {
+  const { currentUser } = useContext(UserContext);
   const [state, setState] = useState({
     isLoading: false,
     error: "",
@@ -16,7 +18,15 @@ const useMutation = (url) => {
     }));
 
     axios
-      .post(url, form)
+      .post(
+        url,
+        {
+          params: {
+            user_id: currentUser.sub,
+          },
+        },
+        form
+      )
       .then((res) => {
         console.log(res);
         setState({ isLoading: false, error: "" });
