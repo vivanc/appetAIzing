@@ -1,12 +1,25 @@
+require("dotenv").config({ path: `.env.development` });
 const express = require("express");
 const app = express();
 const db = require("./db");
 const multer = require("multer");
-const { uploadToS3, getUserPresignedUrls } = require("./s3");
+const {
+  S3Client,
+  PutObjectCommand,
+  GetObjectCommand,
+} = require("@aws-sdk/client-s3");
+const { v4: uuidv4 } = require("uuid");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
 //middleware
 app.use(express.json());
 
+// setup s3 object
+const s3 = new S3Client({ region: process.env.AWS_REGION });
+
+//sotre image into memory buffer
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 //needed header to address CORS error
 app.use((req, res, next) => {
@@ -16,57 +29,23 @@ app.use((req, res, next) => {
   next();
 });
 
-// store imgages to memory (buffer) before storing it to s3
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
-
-// s3 - post/upload image
-app.post("/api/image", upload.single("image"), (req, res) => {
+app.post("/api/recipe/new", upload.single("image"), async (req, res) => {
   debugger;
-  const { file } = req;
-  const userID = "123";
+  console.log("req.body", req.body);
+  console.log("req.file", req.file); // image file is not printed out from req.file or req.body??
 
-  console.log(userID);
-  console.log(file);
+  // upload image to s3
+  const params = {
+    Bucket: process.env.AWS_BUCKET,
+    Key: `${uuidv4()}` + req.file.originalname,
+    Body: req.file.buffer,
+    ContentType: req.file.mimetype,
+  };
 
-  if (!file) return res.status(400).json("BAD");
+  const command = new PutObjectCommand(params);
+  await s3.send(command);
 
-  const { error, key } = uploadToS3({ file, userID });
-
-  if (error) return res.status(500).json("failed uploading to S3");
-  return res.status(201).json({ key });
-});
-
-// s3 disply images
-app.get("/api/show/image", async (req, res) => {
-  const userID = "123";
-
-  if (!userID) return res.status(400).json("no userID!");
-
-  const { error, presignedUrls } = await getUserPresignedUrls(userID);
-  if (error) return res.status(400).json(error.message);
-
-  return res.json(presignedUrls);
-});
-
-// test api
-app.post("/api/user", async (req, res) => {
-  const { id, name } = req.body;
-  console.log(req.body);
-  if (!id || !email) {
-    return res.status(400).send("Data is missing");
-  }
-
-  try {
-    const user = await db("users").insert({ id, name });
-    res.status(201).send(user);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: error.message });
-  }
-});
-
-app.post("/api/recipe/new", async (req, res) => {
+  // save recipe text object to postgres
   let { user_id, name, ingredients, steps, image_url } = req.body;
 
   if (!user_id || !name || !ingredients || !steps || !image_url) {
@@ -78,26 +57,30 @@ app.post("/api/recipe/new", async (req, res) => {
 
   try {
     //there might be a situation that inserts multiple rows
-    const recipes = await db('recipes').insert({user_id, name, ingredients, steps, image_url}).returning('*');
+    const recipes = await db("recipes")
+      .insert({ user_id, name, ingredients, steps, image_url })
+      .returning("*");
     res.status(201).json(recipes[0]);
   } catch (err) {
-    res.status(500).json({ message: "Error adding recipe", error: err.message });
-
+    res
+      .status(500)
+      .json({ message: "Error adding recipe", error: err.message });
   }
 });
 
-//tbd
 app.get("/api/recipes", async (req, res) => {
   try {
-    const user_id = req.query.user_id
-    const recipes = await db.select("*").from("recipes").where('user_id', user_id);
+    const user_id = req.query.user_id;
+    const recipes = await db
+      .select("*")
+      .from("recipes")
+      .where("user_id", user_id);
 
     if (recipes) {
-      res.status(200).json(recipes)
+      res.status(200).json(recipes);
     } else {
       res.status(404).json("Recipes Not Found");
     }
-
   } catch (err) {
     console.log(err);
     res
@@ -113,8 +96,7 @@ app.get("/api/recipe/:id", async (req, res) => {
     const recipe = await db("recipes").where({ id });
 
     if (recipe) {
-
-      res.status(200).json(recipe)
+      res.status(200).json(recipe);
     } else {
       res.status(404).json({ error: "Recipe not found" });
     }
