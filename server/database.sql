@@ -19,6 +19,6 @@ CREATE TABLE IF NOT EXISTS recipes (
     name VARCHAR(255) NOT NULL,
     ingredients TEXT [],
     steps TEXT [],
-    image_url VARCHAR(255),
+    image_url TEXT,
     image_name VARCHAR(255)
 );
