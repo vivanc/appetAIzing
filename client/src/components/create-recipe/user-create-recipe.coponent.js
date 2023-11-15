@@ -2,107 +2,55 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/user.context";
-import UploadImage from "../upload-image/upload-image.component";
-import { ToastContainer, toast } from "react-toastify";
-import useMutation from "../../components/hooks/useMutation.component";
-import useQuery from "../../components/hooks/useQuery.component";
-
-const validFileTypes = ["image/png", "image/jpg", "image/jpeg"];
 
 const UserCreateRecipe = () => {
   const { currentUser } = useContext(UserContext);
+  // const [file, setFile] = useState();
 
-  const [newRecipe, setNewRecipe] = useState({
-    user_id: currentUser.sub,
-    name: "",
-    ingredients: "",
-    steps: "",
-    image_url: "http://",
-  });
+  // const [newRecipe, setNewRecipe] = useState({
+  //   user_id: currentUser.sub,
+  //   name: "",
+  //   ingredients: "",
+  //   steps: "",
+  //   image_url: "http://",
+  // });
 
   const [redirect, setRedirect] = useState(false);
   const [redirectRoute, setRedirectRoute] = useState("");
 
-  const [error, setError] = useState(""); // file type check error
-  // const [refetch, setRefetch] = useState(0);
-  const [file, setFile] = useState(null); // file/image object
-
-  // custom hook to upload image to s3
-  const {
-    mutate: uploadImage,
-    isLoading: uploading,
-    error: uploadError,
-  } = useMutation("http://localhost:5001/api/image");
-
-  // custom hook to fetch image from s3
-  const {
-    data: imageUrl = [],
-    isLoading: imageLoading,
-    error: fetchError,
-  } = useQuery("http://localhost:5001/api/show/image");
-  // , refetch
-
-  console.log("here the imageurl: ");
-  console.log(imageUrl);
-
   // once recipe created and submitted, trigger redirect to view recipe by id
   let navigate = useNavigate();
+
   useEffect(() => {
-    {
-      // console.log(redirect);
-    }
     navigate(redirectRoute);
   }, [redirect]);
 
   // set recipe to user input
-  const handleInput = (event) => {
-    setNewRecipe({
-      ...newRecipe,
-      [event.target.name]: event.target.value,
-      image_url: imageUrl[imageUrl.length - 1],
-    });
-    // console.log(newRecipe);
-  };
+  // const handleInput = (event) => {
+  //   setNewRecipe({
+  //     ...newRecipe,
+  //     [event.target.name]: event.target.value,
+  //   });
+  // };
 
-  // handle image upload
-  const handleUpload = async (e) => {
-    // grab file
-    const file = e.target.files[0];
-    console.log(e.target.files[0]);
-
-    // check file type
-    if (!validFileTypes.find((type) => type === file.type)) {
-      setError("File must be in JPG/PNG format");
-      return;
-    }
-
-    // toast notification
-    toast.success("Successfully added image!", {
-      position: toast.POSITION.TOP_RIGHT,
-      autoClose: 1000,
-    });
-
-    setFile(file);
-  };
-
-  // handle submit recipe + image to server
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // need FormData to send it to back end = key(file name)/value(file itself)
-    const form = new FormData();
-    form.append("image", file);
-    console.log(...form);
-    await uploadImage(form);
+    const formData = new FormData(event.currentTarget);
+    formData.append("user_id", currentUser.sub);
+    formData.append("image_url", "http://");
+    formData.append("image_name", "placeholder");
 
-    // set timeout for refetch 1sec
-    // setTimeout(() => {
-    //   setRefetch((s) => s + 1);
-    // }, 1000);
+    // to check formData
+    const data = Object.fromEntries(formData);
+    console.log("this is formData from e.currentTarget: ");
+    console.log(data);
 
     //newRecipe was {newRecipe} what's different?
-    axios
-      .post("http://localhost:5001/api/recipe/new", newRecipe)
+    await axios
+      .post("http://localhost:5001/api/recipe/new", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
       .then((response) => {
         //typeof response.data: object; typeof response.data[0]: undefined
         //because the objects are not indexed like array, can only access with its key
@@ -120,37 +68,34 @@ const UserCreateRecipe = () => {
 
   return (
     <>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div>Recipe Name:</div>
         <div>
-          <input type="text" onChange={handleInput} name="name"></input>
+          <input type="text" name="name"></input>
+          {/* onChange={handleInput}  */}
         </div>
         <div>Ingredients:</div>
-        <textarea onChange={handleInput} name="ingredients" />
+        <textarea name="ingredients" />
+        {/* onChange={handleInput} */}
         <div>Steps:</div>
-        <textarea onChange={handleInput} name="steps" />
+        <textarea name="steps" />
+        {/* onChange={handleInput} */}
         {/* Image file component */}
-        <div>
-          <input id="upload-btn" type="file" hidden onChange={handleUpload} />
-          <ToastContainer />
-          <label htmlFor="upload-btn" className="btn btn-warning">
-            Upload
-          </label>
-          <div className="text-danger">{error && `${error}`}</div>
-          <div className="text-danger">{uploadError && `${uploadError}`}</div>
-        </div>
-        <div>
-          {/* Image file component end */}
-          <button className="btn btn-primary" onClick={handleSubmit}>
-            Submit
-          </button>
-          <div>
-            {imageUrl?.length > 0 &&
-              imageUrl.map((iurl) => (
-                <img src={iurl} alt="uploaded image" key={iurl} />
-              ))}
-          </div>
-        </div>
+        <div>Upload image here:</div>
+        <input
+          type="file"
+          // onChange={(e) => setFile(e.target.files[0])}
+          name="image"
+          accept="image/*"
+        />
+        {/* Image file component end */}
+        <button
+          type="submit"
+          className="btn btn-primary"
+          // onClick={handleSubmit}
+        >
+          Submit
+        </button>
       </form>
     </>
   );

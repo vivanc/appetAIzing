@@ -19,13 +19,6 @@ CREATE TABLE IF NOT EXISTS recipes (
     name VARCHAR(255) NOT NULL,
     ingredients TEXT [],
     steps TEXT [],
-    image_url VARCHAR(255)
+    image_url TEXT,
+    image_name VARCHAR(255)
 );
-
--- Error message: value too long for type character varying(255)
--- To alter column datatype:
---      ALTER TABLE recipes
---      ALTER COLUMN image_url TEXT;
-
--- To check table datatype:
---      \d recipes
