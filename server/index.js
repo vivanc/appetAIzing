@@ -11,17 +11,17 @@ const {
 const { v4: uuidv4 } = require("uuid");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
-//middleware
+// middleware
 app.use(express.json());
 
 // setup s3 object
 const s3 = new S3Client({ region: process.env.AWS_REGION });
 
-//sotre image into memory buffer
+// sotre image in memory buffer before loading it to s3
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-//needed header to address CORS error
+// needed header to address CORS error
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
@@ -35,9 +35,10 @@ app.post("/api/recipe/new", upload.single("image"), async (req, res) => {
   console.log("req.file", req.file); // image file is not printed out from req.file or req.body??
 
   // upload image to s3
+  const image_name_from_s3 = `${uuidv4()}` + req.file.originalname;
   const params = {
     Bucket: process.env.AWS_BUCKET,
-    Key: `${uuidv4()}` + req.file.originalname,
+    Key: image_name_from_s3,
     Body: req.file.buffer,
     ContentType: req.file.mimetype,
   };
@@ -46,9 +47,16 @@ app.post("/api/recipe/new", upload.single("image"), async (req, res) => {
   await s3.send(command);
 
   // save recipe text object to postgres
-  let { user_id, name, ingredients, steps, image_url } = req.body;
+  let { user_id, name, ingredients, steps, image_url, image_name } = req.body;
 
-  if (!user_id || !name || !ingredients || !steps || !image_url) {
+  if (
+    !user_id ||
+    !name ||
+    !ingredients ||
+    !steps ||
+    !image_url ||
+    !image_name
+  ) {
     return res.status(400).send("Data is missing");
   }
 
@@ -57,8 +65,17 @@ app.post("/api/recipe/new", upload.single("image"), async (req, res) => {
 
   try {
     //there might be a situation that inserts multiple rows
+    const new_image_name = image_name_from_s3;
+
     const recipes = await db("recipes")
-      .insert({ user_id, name, ingredients, steps, image_url })
+      .insert({
+        user_id: user_id,
+        name: name,
+        ingredients: ingredients,
+        steps: steps,
+        image_url: image_url,
+        image_name: new_image_name,
+      })
       .returning("*");
     res.status(201).json(recipes[0]);
   } catch (err) {
@@ -75,6 +92,16 @@ app.get("/api/recipes", async (req, res) => {
       .select("*")
       .from("recipes")
       .where("user_id", user_id);
+
+    for (const recipe of recipes) {
+      const getObjectParams = {
+        Bucket: process.env.AWS_BUCKET,
+        Key: recipe.image_name,
+      };
+      const command = new GetObjectCommand(getObjectParams);
+      const url = await getSignedUrl(s3, command, { expiredIn: 3600 });
+      recipe.image_url = url;
+    }
 
     if (recipes) {
       res.status(200).json(recipes);
