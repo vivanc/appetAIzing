@@ -39,6 +39,7 @@ const UserCreateRecipe = () => {
     const formData = new FormData(event.currentTarget);
     formData.append("user_id", currentUser.sub);
     formData.append("image_url", "http://");
+    formData.append("image_name", "placeholder");
 
     // to check formData
     const data = Object.fromEntries(formData);
