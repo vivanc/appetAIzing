@@ -122,6 +122,22 @@ app.get("/api/recipe/:id", async (req, res) => {
   try {
     const recipe = await db("recipes").where({ id });
 
+    console.log("this is selected id recipe: ");
+    console.log(recipe);
+
+    const getObjectParams2 = {
+      Bucket: process.env.AWS_BUCKET,
+      Key: recipe[0].image_name,
+    };
+
+    const command = new GetObjectCommand(getObjectParams2);
+    const url = await getSignedUrl(s3, command, { expiredIn: 3600 });
+    recipe[0].image_url = url;
+
+    // check url
+    console.log("this is url: ");
+    console.log(url);
+
     if (recipe) {
       res.status(200).json(recipe);
     } else {
