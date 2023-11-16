@@ -14,6 +14,19 @@ const ViewRecipe = () => {
     navigate(`./edit`);
   }
 
+  const handleDeleteClick = (e) => {
+    e.preventDefault();
+    const isConfirmed = window.confirm("Are you sure you want to delete?")
+    if (isConfirmed) {
+      navigate('../../home')
+      axios
+      .delete(`http://localhost:5001/api/recipe/${recipeId}`)
+      .then((response) => {
+        console.log(response)
+      })
+    }
+  }
+
   useEffect(() => {
     axios
       .get(`http://localhost:5001/api/recipe/${recipeId}`)
@@ -34,6 +47,9 @@ const ViewRecipe = () => {
       <div className="d-inline-flex justify-content-end">
         <button className="btn btn-light" onClick={handleEditClick}>
           Edit Recipe
+        </button>
+        <button className="btn btn-light" onClick={handleDeleteClick}>
+          Delete Recipe
         </button>
       </div>
 
