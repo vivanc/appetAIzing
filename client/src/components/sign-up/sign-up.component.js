@@ -50,7 +50,7 @@ const SignUp = () => {
           </Col>
           <Col>
             <div data-testid="sign-up" className="sign-up-container">
-              <h2>Sign up</h2>
+              {/* <h2>Sign up</h2>
               <form>
                 <div className="form-group">
                   <label htmlFor="exampleInputEmail1">Email</label>
@@ -77,9 +77,14 @@ const SignUp = () => {
                 <button type="submit" className="btn btn-primary">
                   Sign Up
                 </button>
-              </form>
-              <h5>Or Sign Up Using</h5>
-              <div id="sign-up-google"></div>
+              </form> */}
+              <h3 className="d-flex align-items-center flex-column font-weight-bold pt-5">
+                Join us now 🎉
+              </h3>
+              <div className="d-flex align-items-center flex-column">
+                <h5 className="text-success">Sign in with</h5>
+                <div className="pb-5" id="sign-up-google"></div>
+              </div>
             </div>
           </Col>
         </Row>
