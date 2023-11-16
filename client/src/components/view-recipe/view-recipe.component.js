@@ -18,12 +18,12 @@ const ViewRecipe = () => {
     e.preventDefault();
     const isConfirmed = window.confirm("Are you sure you want to delete?")
     if (isConfirmed) {
-      navigate('../../home')
       axios
       .delete(`http://localhost:5001/api/recipe/${recipeId}`)
       .then((response) => {
         console.log(response)
       })
+      .then(navigate('../../home'))
     }
   }
 
