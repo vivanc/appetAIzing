@@ -24,7 +24,7 @@ const upload = multer({ storage: storage });
 // needed header to address CORS error
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
+  res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
@@ -94,13 +94,16 @@ app.get("/api/recipes", async (req, res) => {
       .where("user_id", user_id);
 
     for (const recipe of recipes) {
-      const getObjectParams = {
-        Bucket: process.env.AWS_BUCKET,
-        Key: recipe.image_name,
-      };
-      const command = new GetObjectCommand(getObjectParams);
-      const url = await getSignedUrl(s3, command, { expiredIn: 3600 });
-      recipe.image_url = url;
+      if (recipe.image_name){
+        const getObjectParams = {
+          Bucket: process.env.AWS_BUCKET,
+          Key: recipe.image_name,
+        };
+        const command = new GetObjectCommand(getObjectParams);
+        const url = await getSignedUrl(s3, command, { expiredIn: 3600 });
+        recipe.image_url = url;
+      }
+      
     }
 
     if (recipes) {
