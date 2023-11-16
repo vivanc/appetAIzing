@@ -31,38 +31,33 @@ const RecipeCard = (props) => {
           <h6>Ingredients:</h6>
           <p className="card-text">
             <ul>
-            {
-              recipe.ingredients.map((ingredient, index) => {
+              {recipe.ingredients.map((ingredient, index) => {
                 if (index < 3) {
-                  return <li>{ingredient}</li>
+                  return <li>{ingredient}</li>;
                 }
                 if (index === 3) {
-                  return "......"
+                  return "......";
                 }
-                
-              })
-            }
+              })}
             </ul>
           </p>
           <h6>Steps:</h6>
           <p className="card-text">
-          <ul>
-              {
-                recipe.steps.map((step, index) => {
-                  if ( index < 3 ) {
-                    return <li>{step}</li>
-                  }
-                  if (index === 3) {
-                    return "......"
-                  }
-                })
-              }
+            <ul>
+              {recipe.steps.map((step, index) => {
+                if (index < 3) {
+                  return <li>{step}</li>;
+                }
+                if (index === 3) {
+                  return "......";
+                }
+              })}
             </ul>
           </p>
-          <div className="text-end">
+          <div className="text-end position-absolute bottom-0 end-0 p-2">
             <button
               onClick={handleRecipeClick}
-              className="btn btn-warning"
+              className="btn btn-warning "
               type="button"
             >
               Read More
