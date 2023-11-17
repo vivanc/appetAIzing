@@ -1,7 +1,8 @@
 
 
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![AppetAIzing](https://github.com/vivanc/appetAIzing/assets/24975683/ab00df0b-f129-4db7-8e08-fec2b442f3a9)
+
 
 
 
