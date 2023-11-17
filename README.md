@@ -19,6 +19,8 @@ A culinary companion, an AI-powered platform designed for recipe enthusiasts.
 
 ## Demo
 
+...need to plug in 
+
 ![Demo](https://watch.screencastify.com/v/smaNhoM4qyFYmMIEni9Z.gif)
 
 
