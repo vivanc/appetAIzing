@@ -63,12 +63,16 @@ const Recipe = () => {
       </div>
       <div className="row row-cols-1 row-cols-md-4 justify-content-center">
         {input.length === 0
-          ? initialRecipes.map((recipe) => {
-              return <RecipeCard recipe={recipe} key={recipe.id} />;
-            })
-          : recipes.map((recipe) => {
-              return <RecipeCard recipe={recipe} key={recipe.id} />;
-            })}
+          ? initialRecipes
+              .sort((a, b) => b.id - a.id)
+              .map((recipe) => {
+                return <RecipeCard recipe={recipe} key={recipe.id} />;
+              })
+          : recipes
+              .sort((a, b) => b.id - a.id)
+              .map((recipe) => {
+                return <RecipeCard recipe={recipe} key={recipe.id} />;
+              })}
       </div>
     </>
   );
