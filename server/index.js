@@ -10,9 +10,15 @@ const {
 } = require("@aws-sdk/client-s3");
 const { v4: uuidv4 } = require("uuid");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const { OpenAI } = require("openai")
 
 // middleware
 app.use(express.json());
+
+const anyscale = new OpenAI({
+  baseURL: process.env.OPENAI_API_BASE,
+  apiKey: process.env.OPENAI_API_KEY,
+})
 
 // setup s3 object
 const s3 = new S3Client({ region: process.env.AWS_REGION });
@@ -94,7 +100,7 @@ app.get("/api/recipes", async (req, res) => {
       .where("user_id", user_id);
 
     for (const recipe of recipes) {
-      if (recipe.image_name){
+      if (recipe.image_name) {
         const getObjectParams = {
           Bucket: process.env.AWS_BUCKET,
           Key: recipe.image_name,
@@ -103,7 +109,7 @@ app.get("/api/recipes", async (req, res) => {
         const url = await getSignedUrl(s3, command, { expiredIn: 3600 });
         recipe.image_url = url;
       }
-      
+
     }
 
     if (recipes) {
@@ -196,6 +202,53 @@ app.delete("/api/recipe/:id", async (req, res) => {
     res.status(500).json({ message: "Error deleting recipe", error: err });
   }
 });
+
+app.post('/api/summerize_url', async (req, res) => {
+  const url = req.body.url
+  const prompt = `Summarize this url and break them into name, ingredients, and steps in JSON format: ${url}`
+  if (true) {
+    anyscale.chat.completions.create({
+      model: "meta-llama/Llama-2-7b-chat-hf",
+      messages: [{ role: "user", content: prompt }],
+      // temperature: 0.7
+    })
+    .then((completion) => {
+      const aiReturnRecipeStr = completion.choices[0].message.content
+      console.log(aiReturnRecipeStr)
+      const matches = aiReturnRecipeStr.match(/\{([^}]+)\}/g)
+      res.status(200).send(matches[0])
+    })
+  } else {
+
+    res.status(200).json({
+      "name": "Best Ever Taco Meat",
+      "ingredients": [
+        "1 lb ground beef",
+        "1/4 cup chopped onion",
+        "1/4 cup chopped bell pepper",
+        "1 jalapeno pepper",
+        "2 cloves garlic",
+        "1 tablespoon chili powder",
+        "1 teaspoon cumin",
+        "1/2 teaspoon paprika",
+        "1/4 teaspoon cayenne pepper",
+        "1 can (14.5 oz) diced tomatoes with green chilies",
+        "1 cup beef broth",
+        "1 tablespoon tomato paste"
+      ],
+      "steps": [
+        "Heat oil in a large skillet over medium heat. Add the chopped onion and cook, stirring occasionally, until softened. About 5 minutes. ",
+        "Add the ground beef to the skillet. Cook, breaking it up with a spoon, until browned, about 5 minutes. ",
+        "Add the chopped bell pepper, jalapeno pepper, and garlic to the skillet. Cook, stirring occasionally, until the vegetables are softened, about 5 minutes. ",
+        "Stir in the chili powder, cumin, paprika, and cayenne pepper. Cook, stirring constantly, for 1 minute. ",
+        "Add the diced tomatoes with green chilies, beef broth, and tomato paste to the skillet. Stir to combine. Bring to a simmer. ",
+        "Reduce heat to low and let simmer for 10 minutes. Taste and adjust seasoning as needed. ",
+        "Serve the taco meat hot, garnished with chopped cilantro, while warm. Serve with tortillas, cheese, lettuce, and other toppings of your choice. Enjoy! "
+      ]
+    }
+    )
+  }
+})
 
 app.listen(5001, () => {
   console.log("server is running on port 5001");

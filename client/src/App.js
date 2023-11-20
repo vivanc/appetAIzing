@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import MainPage from "./components/main-page/main-page.component.js";
 import HomePage from "./components/home-page/home-page.component";
 import CreateRecipe from "./components/create-recipe/create-recipe.component.js";
+import UserCreateRecipe from "./components/create-recipe/user-create-recipe.coponent.js";
 import RecipeCard from "./components/recipe-card/recipe-card.component.js";
 import ViewRecipe from "./components/view-recipe/view-recipe.component.js";
 import { UserContext } from "./contexts/user.context";
@@ -14,6 +15,7 @@ import axios from "axios";
 import { NoMatch } from "./components/no-match/no-match.component";
 import Recipe from "./components/recipe/recipe.component";
 import UpdateRecipe from "./components/update-recipe/update-recipe.js";
+import AICreateRecipe from "./components/create-recipe/ai-create-recipe.component.js";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState({});
@@ -36,7 +38,7 @@ const App = () => {
 
               <Route path="/home" element={<HomePage />}>
                 <Route index element={<Recipe />} />
-                <Route path="create-recipe" element={<CreateRecipe />} />
+                <Route path="create-recipe" element={<AICreateRecipe />} />
                 <Route path="recipe/:recipeId" element={<ViewRecipe />} />
                 <Route
                   path="recipe/:recipeId/edit"
