@@ -24,7 +24,7 @@ const Recipe = () => {
           console.log("recipe component render inside useEffect");
         });
     }
-  }, [initialRecipes]);
+  }, []);
 
   const filterRecipes = (value) => {
     if (currentUser.sub)

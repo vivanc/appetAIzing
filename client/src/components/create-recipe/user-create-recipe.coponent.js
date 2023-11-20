@@ -3,7 +3,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/user.context";
 
-const UserCreateRecipe = () => {
+const UserCreateRecipe = (props) => {
+  console.log(props)
+  const baseRecipe = props.aiRecipe
+  console.log('baseRecipe' ,baseRecipe)
+  
   const { currentUser } = useContext(UserContext);
   // const [file, setFile] = useState();
 
@@ -71,14 +75,14 @@ const UserCreateRecipe = () => {
       <form onSubmit={handleSubmit}>
         <div>Recipe Name:</div>
         <div>
-          <input type="text" name="name"></input>
+          <input type="text" name="name" value={baseRecipe.name}></input>
           {/* onChange={handleInput}  */}
         </div>
         <div>Ingredients:</div>
-        <textarea name="ingredients" />
+        <textarea name="ingredients" value={baseRecipe.ingredients.join('\n')}/>
         {/* onChange={handleInput} */}
         <div>Steps:</div>
-        <textarea name="steps" />
+        <textarea name="steps" value={baseRecipe.steps.join('\n')}/>
         {/* onChange={handleInput} */}
         {/* Image file component */}
         <div>Upload image here:</div>
