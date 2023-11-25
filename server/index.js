@@ -127,27 +127,29 @@ app.get("/api/recipes", async (req, res) => {
 
 app.get("/api/recipe/:id", async (req, res) => {
   const { id } = req.params;
+  const user_id = req.query.user_id;
+  console.log('user id', user_id)
 
   try {
     const recipe = await db("recipes").where({ id });
-
+    
     console.log("this is selected id recipe: ");
-    console.log(recipe);
+    console.log(typeof user_id, typeof recipe[0].user_id, user_id, recipe[0].user_id);
+    if (recipe[0] && recipe[0].user_id == user_id) {
+      const getObjectParams2 = {
+        Bucket: process.env.AWS_BUCKET,
+        Key: recipe[0].image_name,
+      };
 
-    const getObjectParams2 = {
-      Bucket: process.env.AWS_BUCKET,
-      Key: recipe[0].image_name,
-    };
+      const command = new GetObjectCommand(getObjectParams2);
+      const url = await getSignedUrl(s3, command, { expiredIn: 3600 });
+      recipe[0].image_url = url;
 
-    const command = new GetObjectCommand(getObjectParams2);
-    const url = await getSignedUrl(s3, command, { expiredIn: 3600 });
-    recipe[0].image_url = url;
+      // check url
+      console.log("this is url: ");
+      console.log(url);
 
-    // check url
-    console.log("this is url: ");
-    console.log(url);
 
-    if (recipe) {
       res.status(200).json(recipe);
     } else {
       res.status(404).json({ error: "Recipe not found" });
@@ -212,16 +214,16 @@ app.post('/api/summerize_url', async (req, res) => {
       messages: [{ role: "user", content: prompt }],
       // temperature: 0.7
     })
-    .then((completion) => {
-      const aiReturnRecipeStr = completion.choices[0].message.content
-      console.log(aiReturnRecipeStr)
-      const matches = aiReturnRecipeStr.match(/\{([^}]+)\}/g)
-      if (!matches || matches.length === 0) {
-        res.status(500).send("AI does not return a valid json")
-      } else {
-        res.status(200).send(matches[0])
-      }
-    })
+      .then((completion) => {
+        const aiReturnRecipeStr = completion.choices[0].message.content
+        console.log(aiReturnRecipeStr)
+        const matches = aiReturnRecipeStr.match(/\{([^}]+)\}/g)
+        if (!matches || matches.length === 0) {
+          res.status(500).send("AI does not return a valid json")
+        } else {
+          res.status(200).send(matches[0])
+        }
+      })
   } else {
 
     res.status(200).json({

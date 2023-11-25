@@ -93,7 +93,7 @@ const UserCreateRecipe = (props) => {
       <form onSubmit={handleSubmit}>
         <div>Recipe Name:</div>
         <div>
-          <input type="text" name="name" onChange={handleInput} value={baseRecipe.name}></input>
+          <input type="text" name="name" onChange={handleInput} value={baseRecipe.name} style={{ width: '80%' }}></input>
           {/* onChange={handleInput}  */}
         </div>
         <div>Ingredients:</div>
