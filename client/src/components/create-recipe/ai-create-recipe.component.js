@@ -26,11 +26,11 @@ const AICreateRecipe = () => {
         e.preventDefault()
         axios.post('http://localhost:5001/api/summerize_url', {url: urlFromUser})
         .then((res) => {
-            console.log(res.data)
+            console.log('response data', res.data)
             const {name, ingredients, steps} = res.data
             setAIRecipe({name, ingredients, steps})
-            console.log('ai recipe content', aiRecipe)
         })
+        .catch((error) => console.log(error))
         // console.log("event", e.target)
         // const prompt = `Summarize this url and break them into name, ingredients, and steps in JSON format: ${urlFromUser}`
         // console.log("prompt", prompt)
