@@ -70,6 +70,7 @@ const AICreateRecipe = () => {
                     name="urlFromUser"
                     value={urlFromUser}
                     onChange={handleInputChange}
+                    style={{ width: '90%' }}
                 />
                 <button type="submit"
                     className="btn btn-primary">Submit URL</button>

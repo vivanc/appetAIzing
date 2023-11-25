@@ -1,10 +1,12 @@
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import "./view-recipe.styles.css";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../contexts/user.context";
 
 const ViewRecipe = () => {
+  const { currentUser } = useContext(UserContext);
   const [recipe, setRecipe] = useState({ ingredients: [], steps: [] });
   let { recipeId } = useParams();
   let navigate = useNavigate();
@@ -22,18 +24,30 @@ const ViewRecipe = () => {
       .delete(`http://localhost:5001/api/recipe/${recipeId}`)
       .then((response) => {
         console.log(response)
+        navigate('../../home')
       })
-      .then(navigate('../../home'))
     }
   }
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5001/api/recipe/${recipeId}`)
-      .then((response) => {
-        const returnedRecipe = response.data;
-        setRecipe(returnedRecipe[0]);
+    console.log('current user', currentUser.sub)
+   
+      axios
+      .get(`http://localhost:5001/api/recipe/${recipeId}`, {
+        params: {
+          user_id: currentUser.sub,
+        },
       })
+      .then((response) => {
+        console.log(response)
+        if (response.status == 404) {
+          throw new Error("recipe not found")
+        } else {
+          const returnedRecipe = response.data;
+          setRecipe(returnedRecipe[0]);
+        }
+      })
+      .catch((error) => console.log('page not found', error))
   }, [])
 
 
