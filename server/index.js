@@ -225,7 +225,7 @@ app.post('/api/summerize_url', async (req, res) => {
   } else {
 
     res.status(200).json({
-      "Wrong_name": "Best Ever Taco Meat",
+      "name": "Best Ever Taco Meat",
       "ingredients": [
         "1 lb ground beef",
         "1/4 cup chopped onion",

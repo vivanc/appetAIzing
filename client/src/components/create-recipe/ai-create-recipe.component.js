@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import UserCreateRecipe from './user-create-recipe.coponent';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -14,6 +15,7 @@ const AICreateRecipe = () => {
     console.log("ai recipe is rendring")
     const [urlFromUser, setUrlFromUser] = useState('')
     const [aiRecipe, setAIRecipe] = useState({name: '', ingredients: [], steps: []})
+    const [loading, setLoading] = useState(false)
 
     
 
@@ -25,6 +27,9 @@ const AICreateRecipe = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        console.log('before toast working?')
+        toast.info('AI is processing your recipe...');
+        console.log('after toast working?')
         axios.post('http://localhost:5001/api/summerize_url', {url: urlFromUser})
         .then((res) => {
             console.log('response data', res.data)
@@ -38,6 +43,7 @@ const AICreateRecipe = () => {
                 Array.isArray(res.data.ingredients) &&
                 Array.isArray(res.data.steps)
             ) {
+
                 const {name, ingredients, steps} = res.data
                 setAIRecipe({name, ingredients, steps})
             } else {
@@ -55,6 +61,7 @@ const AICreateRecipe = () => {
 
     return (
         <>
+            <ToastContainer />
             <form className="mb-3" onSubmit={handleSubmit}>
                 <label>Create a Recipe by AI</label>
                 <input
