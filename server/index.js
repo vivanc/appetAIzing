@@ -204,7 +204,7 @@ app.delete("/api/recipe/:id", async (req, res) => {
 });
 
 app.post('/api/summerize_url', async (req, res) => {
-  if (false) {
+  if (true) {
     const url = req.body.url
     const prompt = `Summarize this url and break them into name, ingredients, and steps in JSON format: ${url}`
     anyscale.chat.completions.create({
@@ -216,12 +216,16 @@ app.post('/api/summerize_url', async (req, res) => {
       const aiReturnRecipeStr = completion.choices[0].message.content
       console.log(aiReturnRecipeStr)
       const matches = aiReturnRecipeStr.match(/\{([^}]+)\}/g)
-      res.status(200).send(matches[0])
+      if (!matches || matches.length === 0) {
+        res.status(500).send("AI does not return a valid json")
+      } else {
+        res.status(200).send(matches[0])
+      }
     })
   } else {
 
     res.status(200).json({
-      "name": "Best Ever Taco Meat",
+      "Wrong_name": "Best Ever Taco Meat",
       "ingredients": [
         "1 lb ground beef",
         "1/4 cup chopped onion",
