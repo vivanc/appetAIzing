@@ -204,9 +204,9 @@ app.delete("/api/recipe/:id", async (req, res) => {
 });
 
 app.post('/api/summerize_url', async (req, res) => {
-  const url = req.body.url
-  const prompt = `Summarize this url and break them into name, ingredients, and steps in JSON format: ${url}`
-  if (true) {
+  if (false) {
+    const url = req.body.url
+    const prompt = `Summarize this url and break them into name, ingredients, and steps in JSON format: ${url}`
     anyscale.chat.completions.create({
       model: "meta-llama/Llama-2-7b-chat-hf",
       messages: [{ role: "user", content: prompt }],

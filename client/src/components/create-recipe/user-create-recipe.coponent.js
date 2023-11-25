@@ -4,10 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/user.context";
 
 const UserCreateRecipe = (props) => {
-  console.log(props)
-  const baseRecipe = props.aiRecipe
-  console.log('baseRecipe' ,baseRecipe)
-  
+
+  const { aiRecipe } = props
+  console.log('ai recipe in user create component', aiRecipe)
+  // const baseRecipe = props.aiRecipe
+  const [baseRecipe, setBaseRecipe] = useState({ name: "", ingredients: [], steps: [] })
+  console.log('newRecipe', baseRecipe)
+
   const { currentUser } = useContext(UserContext);
   // const [file, setFile] = useState();
 
@@ -26,21 +29,36 @@ const UserCreateRecipe = (props) => {
   let navigate = useNavigate();
 
   useEffect(() => {
+    console.log('props in use effect', props)
+    setBaseRecipe(props.aiRecipe)
+  }, [props.aiRecipe]);
+
+  useEffect(() => {
     navigate(redirectRoute);
   }, [redirect]);
 
+  // useEffect(() => {
+  //   setBaseRecipe(props.aiRecipe)
+  //   console.log(baseRecipe)
+  // }, [])
+
   // set recipe to user input
-  // const handleInput = (event) => {
-  //   setNewRecipe({
-  //     ...newRecipe,
-  //     [event.target.name]: event.target.value,
-  //   });
-  // };
+  const handleInput = (event) => {
+    console.log(event.target.name, event.target.value)
+    if (event.target.name === "ingredients" || event.target.name === 'steps') {
+      setBaseRecipe({ ...baseRecipe, [event.target.name]: event.target.value.split('\n') })
+
+    } else {
+      setBaseRecipe({ ...baseRecipe, [event.target.name]: event.target.value })
+    }
+    // console.log(newRecipe);
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
+    console.log('formdata', formData)
     formData.append("user_id", currentUser.sub);
     formData.append("image_url", "http://");
     formData.append("image_name", "placeholder");
@@ -68,21 +86,21 @@ const UserCreateRecipe = (props) => {
       .catch((error) => console.log(error));
   };
 
-  console.log("user create recipe component render:");
+  // console.log("user create recipe component render:");
 
   return (
     <>
       <form onSubmit={handleSubmit}>
         <div>Recipe Name:</div>
         <div>
-          <input type="text" name="name" value={baseRecipe.name}></input>
+          <input type="text" name="name" onChange={handleInput} value={baseRecipe.name}></input>
           {/* onChange={handleInput}  */}
         </div>
         <div>Ingredients:</div>
-        <textarea name="ingredients" value={baseRecipe.ingredients.join('\n')}/>
+        <textarea name="ingredients" onChange={handleInput} value={baseRecipe.ingredients.join('\n')} />
         {/* onChange={handleInput} */}
         <div>Steps:</div>
-        <textarea name="steps" value={baseRecipe.steps.join('\n')}/>
+        <textarea name="steps" onChange={handleInput} value={baseRecipe.steps.join('\n')} />
         {/* onChange={handleInput} */}
         {/* Image file component */}
         <div>Upload image here:</div>
@@ -96,7 +114,7 @@ const UserCreateRecipe = (props) => {
         <button
           type="submit"
           className="btn btn-primary"
-          // onClick={handleSubmit}
+        // onClick={handleSubmit}
         >
           Submit
         </button>
