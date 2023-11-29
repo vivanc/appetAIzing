@@ -9,8 +9,13 @@ import { UserContext } from "../../contexts/user.context";
 const HomePage = () => {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const navigate = useNavigate();
+  // const persistUser = JSON.parse(localStorage.getItem('currentUser'));
+  // setCurrentUser(persistUser);
+  console.log("home page console.log currentuser: ")
+  console.log(currentUser)
 
   const handleLogout = () => {
+    sessionStorage.clear();
     setCurrentUser({});
     navigate("/");
   };
