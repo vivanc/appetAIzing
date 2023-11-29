@@ -18,7 +18,12 @@ import UpdateRecipe from "./components/update-recipe/update-recipe.js";
 import AICreateRecipe from "./components/create-recipe/ai-create-recipe.component.js";
 
 const App = () => {
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState(JSON.parse(sessionStorage.getItem('currentUser')));
+  // const persistUser = JSON.parse(localStorage.getItem('currentUser'));
+  // setCurrentUser(persistUser);
+  console.log("app.js's current user: ")
+  console.log(currentUser);
+
   const userValue = { currentUser, setCurrentUser };
   const [recipes, setRecipes] = useState([]);
   const recipesValue = { recipes, setRecipes };

@@ -10,13 +10,12 @@ const IntroRightSection = () => {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const navigate = useNavigate();
 
-  console.log("2. signup component after signup: ");
-  console.log(currentUser);
-
   const handleCallbackResponse = (r) => {
     console.log("Encoded JWT ID token: " + r.credential);
     const currentUserObject = jwt_decode(r.credential);
+    console.log(currentUserObject)
     setCurrentUser(currentUserObject);
+    sessionStorage.setItem("currentUser", JSON.stringify(currentUserObject));
     navigate("/home");
   };
 
@@ -27,13 +26,24 @@ const IntroRightSection = () => {
         "39650006073-2krmk3vkmevjck8chahmgr0q01hobnd2.apps.googleusercontent.com",
       callback: handleCallbackResponse,
     });
-    google.accounts.id.renderButton(document.getElementById("sign-up-google"), {
-      theme: "outline",
-      type: "icon",
-      shape: "pill",
-      size: "large",
-    });
-  }, []);
+
+    const currentUserFromStorage = sessionStorage.getItem("currentUser");
+
+    if (currentUserFromStorage) {
+      const currentUserObject = JSON.parse(currentUserFromStorage);
+      setCurrentUser(currentUserObject);
+      
+    } 
+      google.accounts.id.renderButton(document.getElementById("sign-up-google"), {
+        theme: "outline",
+        type: "icon",
+        shape: "pill",
+        size: "large",
+      });
+
+    
+    
+  }, [setCurrentUser]);
 
   return (
     <div className="text-center">
@@ -51,10 +61,6 @@ const IntroRightSection = () => {
           <div className="pb-5" id="sign-up-google"></div>
         </div>
       </div>
-
-      {/* <Link to="/signup">
-          <button>Signup</button>
-        </Link> */}
     </div>
   );
 };
