@@ -1,10 +1,12 @@
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import "./update-recipe.styles.css";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../contexts/user.context";
 
 const UpdateRecipe = () => {
+    const { currentUser } = useContext(UserContext);
     const [recipe, setRecipe] = useState({ ingredients: [], steps: [] });
     // const [editedRecipe, setEditedRecipe] = useState({name: '', ingredients:'', steps: ''})
     let { recipeId } = useParams();
@@ -36,7 +38,11 @@ const UpdateRecipe = () => {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:5001/api/recipe/${recipeId}`)
+            .get(`http://localhost:5001/api/recipe/${recipeId}`, {
+                params: {
+                  user_id: currentUser.sub,
+                },
+              })
             .then((response) => {
                 const returnedRecipe = response.data;
                 setRecipe(returnedRecipe[0]);
