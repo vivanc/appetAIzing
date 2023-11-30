@@ -27,9 +27,7 @@ const AICreateRecipe = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log('before toast working?')
         toast.info('AI is processing your recipe...');
-        console.log('after toast working?')
         axios.post('http://localhost:5001/api/summerize_url', {url: urlFromUser})
         .then((res) => {
             console.log('response data', res.data)
