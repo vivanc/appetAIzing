@@ -7,16 +7,13 @@ import { Container, Row, Col } from "react-bootstrap";
 const MainPage = () => {
     return (
         <div >
-
-            <Row style={{ height: "10vh" }}>
-                <Col ><TopSection /></Col>
-            </Row>
-            <Row style={{ height: "90vh" }}>
-                <Col ><IntroLeftSection /></Col>
-                <Col ><IntroRightSection /></Col>
-            </Row>
-
-
+                <Row style={{ height: "10vh" }}>
+                    <Col ><TopSection /></Col>
+                </Row>
+                <Row style={{ height: "90vh" }}>
+                    <Col ><IntroLeftSection /></Col>
+                    <Col ><IntroRightSection /></Col>
+                </Row>
         </div>
     );
 }
