@@ -41,15 +41,17 @@ const ViewRecipe = () => {
       .then((response) => {
         console.log(response)
         if (response.status == 404) {
-          window.alert("Page Not Found")
-          navigate('../../home')
-          // throw new Error("recipe not found")
+          throw new Error("recipe not found")
         } else {
           const returnedRecipe = response.data;
           setRecipe(returnedRecipe[0]);
         }
       })
-      // .catch((error) => window.alert("Page Not Found"))
+      .catch((error) => {
+        window.alert("Page Not Found")
+        navigate('../../home')
+
+      })
   }, [])
 
 
