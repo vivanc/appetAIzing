@@ -20,7 +20,7 @@ A culinary companion, an AI-powered platform designed for recipe enthusiasts.
 ## Demo
 
 ...need to plug in 
-![AppetAizing](https://github.com/vivianc/appetAIzing/assets/demo.gif)
+![AppetAIzing](https://github.com/vivanc/appetAIzing/assets/demo.gif)
 
 
 
