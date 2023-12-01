@@ -26,18 +26,18 @@ A culinary companion, an AI-powered platform designed for recipe enthusiasts.
 
 ## Key Features
 
-- Google Oauth2.0 Log in
+- Google API with persistent login session 
 - Full CRUD functionality to create, edit, read, and delete recipes
+- Search bar
 - Support image upload
-- AI
-- ...
+- AI summarizer
 
 
 ## Tech Stack
 
-**Client:** React, Bootstrap, Google Oauth,
+**Client:** React.js, Bootstrap, HTML5, CSS, Google API, JavaScript
 
-**Server:** Node, Express, PostgreSQL, AWS S3
+**Server:** Node.js, Express, PostgreSQL, AWS S3, Anyscale API, JavaScript
 
 
 ## How to use
