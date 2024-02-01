@@ -54,7 +54,7 @@ To clone and run this application, you'll need Git and Node.js (comes with npm) 
 ```
 ```bash
   # Install dependencies
-  $ npm installe
+  $ npm install
 ```
 ```bash
   # Run the app
